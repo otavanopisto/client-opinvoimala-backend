@@ -1,0 +1,21 @@
+{
+  "kind": "singleType",
+  "collectionName": "front_pages",
+  "info": {
+    "name": "Front page"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "richtext"
+    }
+  }
+}
