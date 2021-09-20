@@ -1,0 +1,144 @@
+# Any changes made to this file will cause https-proxy to restart and thus making production and stage unavailable for a few seconds to few minutes.
+
+containers:
+    web-production:
+        # Single domain here. Example: geniem.com or handbook.geniem.com.
+        main_domain: opinvoimala-api.production.geniem.io
+
+        # List of subdomains belonging to the main_domain. Examples: contact, support, status.
+        # If you want to use *, use exactly: wildcard
+        sub_domains:
+
+        # All other domains go here. Examples: geniem.fi, geniem.se
+        extra_domains:
+
+        # Determines if the script will generate a server block in: /mnt/devops/https-proxy/config/nginx/proxy-confs/devops.subdomain.conf
+        # This is true by default and should only be set false when you have made a custom server block in: devops/custom-server-blocks.conf
+        generate_server_block: true
+
+        # To which port is the request proxy_passed in the container. Will default to 8080 if not given.
+        exposed_port: 8080
+
+    web-stage:
+        # Single domain here. Example: geniem.com or handbook.geniem.com.
+        main_domain: opinvoimala-api.stage.geniem.io
+
+        # List of subdomains belonging to the main_domain. Examples: contact, support, status.
+        # If you want to use *, use exactly: wildcard
+        sub_domains:
+
+        # All other domains go here. Examples: geniem.fi, geniem.se
+        extra_domains:
+
+        # Determines if the script will generate a server block in: /mnt/devops/https-proxy/config/nginx/proxy-confs/devops.subdomain.conf
+        # This is true by default and should only be set false when you have made a custom server block in: devops/custom-server-blocks.conf
+        generate_server_block: true
+
+        # To which port is the request proxy_passed in the container. Will default to 8080 if not given.
+        exposed_port: 8080
+
+    db-stage:
+        innodb_buffer_pool_size: 256M
+
+lets_encrypt:
+    # Fake certs give out warning for browsers but they work otherwise.
+    # They are perfect for testing as they do not consume Let's Encrypt quota (rate limits).
+    use_fake_certificates: false
+
+    # Requires Geniem Route53 as the nameserver for all domains listed above.
+    # Also requires you to add the newly created Route53 hosted zone to devops-digital-ocean-route53-group-policy. This is something Juhani has to do.
+    # When enabled, scandic letters (punycode) no longer work with the domains. 
+    enable_wildcard_certificates: false
+
+# Sends a warning to slack when given percentage has been exceeded.
+hdd_space_checks:
+    droplet: 75%
+    mount: 75%
+
+DISABLED_health_checks:
+    # Use any name here, this is used with slack messages.
+    default_production:
+        type: http
+
+        url: https://opinvoimala-api.production.geniem.io/health-check
+
+        wait_for_response: 5
+
+        expected_http_code: 200
+
+        sleep_between: 10
+
+        always_send_slack_message: true
+
+        sleep_after_boot: 90
+
+        actions:
+            after_fail:
+                3:
+                    restart_container:
+                        - web-production
+                        - db-production
+                
+                6:
+                    restore_working_config:
+                        - production
+
+                9:
+                    reboot:
+                        - droplet
+
+    db_production:
+        type: bash
+
+        # Health check will only be run if the prequisite returns true.
+        prerequisite: "[ $(/usr/bin/docker ps -a --format='{{.Names}}' | grep db-production) ]"
+
+        bash: "/usr/bin/docker container inspect -f '{{.State.Status}}' db-production"
+
+        expected_result: "running"
+
+        sleep_between: 5
+
+        always_send_slack_message: true
+
+        sleep_after_boot: 90
+
+        actions:
+            after_fail:
+                3:
+                    restart_container:
+                        - db-production
+
+DISABLED_backups:
+    mount:
+        type: filesystem
+
+        folders:
+            - /mnt/devops/secrets
+            - /mnt/devops/docker-compose
+            - /mnt/devops/https-proxy/custom-certificates
+            - /mnt/devops/https-proxy/config/etc/letsencrypt
+
+        cron_interval: "0 3 * * 5"
+
+    logs:
+        type: logs
+
+        folders:
+            - /mnt/devops/logs/production
+
+        cron_interval: "10 3 * * *"
+
+    mysql_production:
+        type: mysql
+
+        container: db-production
+
+        cron_interval: "0 0,6,9,12,15,18 * * *"
+
+    mysql_stage:
+        type: mysql
+
+        container: db-stage
+
+        cron_interval: "0 2 * * *"

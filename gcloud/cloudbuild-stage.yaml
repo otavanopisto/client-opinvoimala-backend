@@ -1,0 +1,70 @@
+substitutions:
+  _PROJECT_NAME: client-opinvoimala-backend
+
+steps:
+  # Download bob-the-builders encrypted rsa key from bucket.
+  - name: gcr.io/cloud-builders/gsutil
+    id: "bob-the-builder-id-rsa-copy"
+    waitFor: ["-"]
+    args:
+      [
+        "cp",
+        "gs://bob-the-builder-rsa-key/id_rsa.enc",
+        "gcloud/id_rsa.enc",
+      ]
+
+  # Get the decryption key for the encrypted rsa key.
+  - name: "gcr.io/cloud-builders/gcloud"
+    id: "bob-the-builder-id-rsa-decrypt"
+    waitFor: ["bob-the-builder-id-rsa-copy"]
+    args:
+      - kms
+      - decrypt
+      - --ciphertext-file=gcloud/id_rsa.enc
+      - --plaintext-file=/root/.ssh/id_rsa
+      - --location=europe-north1
+      - --project=geniem-devops
+      - --keyring=bob-the-builder-rsa-key-decryption
+      - --key=id_rsa_key
+    volumes:
+      - name: "ssh"
+        path: /root/.ssh
+
+  # Add GitHub.com to known hosts.
+  - name: "gcr.io/cloud-builders/git"
+    id: "known-hosts"
+    waitFor: ["bob-the-builder-id-rsa-decrypt"]
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        chmod 600 /root/.ssh/id_rsa
+        cat <<EOF >/root/.ssh/config
+        Hostname github.com
+        IdentityFile /root/.ssh/id_rsa
+        EOF
+        ssh-keyscan -t rsa github.com > /root/.ssh/known_hosts
+    volumes:
+      - name: "ssh"
+        path: /root/.ssh
+
+  # Run Docker build.
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "--pull",
+        "-t",
+        "gcr.io/$PROJECT_ID/${_PROJECT_NAME}:stage-latest",
+        ".",
+      ]
+
+  # Run Docker push.
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/${_PROJECT_NAME}:stage-latest"]
+
+timeout: 900s
+
+# If you have 3 or more themes, uncomment the following two lines:
+#options:
+#  machineType: "N1_HIGHCPU_8"

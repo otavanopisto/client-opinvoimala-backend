@@ -1,0 +1,42 @@
+# Steps:
+# 1. Fill web-stage image.
+
+version: "3.5"
+
+services:
+  web-stage:
+    image: gcr.io/geniem-stage/client-opinvoimala-backend:stage-latest
+
+    container_name: web-stage
+
+    hostname: ${HOSTNAME_PREFIX}-web-stage
+
+    restart: "no"
+
+    networks:
+      - backend-stage
+
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/devops/logs/stage/web:/mnt/devops/logs/stage/web
+
+  db-stage:
+    image: gcr.io/geniem-devops/mariadb:10.5.9
+
+    container_name: db-stage
+
+    hostname: ${HOSTNAME_PREFIX}-db-stage
+
+    restart: "no"
+
+    volumes:
+      - /mnt/devops/mysql/stage:/var/lib/mysql
+      - /etc/localtime:/etc/localtime:ro
+
+    networks:
+      - backend-stage
+
+networks:
+  backend-stage:
+    external:
+      name: backend-stage

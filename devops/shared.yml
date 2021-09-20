@@ -1,0 +1,29 @@
+###########################################
+##                                       ##
+##        All envs here are used         ##
+##      in both stage and production     ##
+##                                       ##
+##               Remember:               ##
+##        "true" and "on" values         ##
+##   must always be wrapped in quotes!   ##
+##                                       ##
+###########################################
+
+version: "3.5"
+
+x-web:
+  &web
+    # CUSTOM - Add your custom project related envs here.
+    MYSQL_PORT:
+    JWT_SECRET:
+    ADMIN_JWT_SECRET:
+
+x-db:
+  &db
+  # CUSTOM - Add your custom project related envs here.
+
+  # SECRETS - New secrets have to be created with gdev2 app secret command and then listed here.
+  MYSQL_USER:
+  MYSQL_DATABASE:
+  MYSQL_PASSWORD: ${MYSQL_PWD}
+  MYSQL_ROOT_PASSWORD:

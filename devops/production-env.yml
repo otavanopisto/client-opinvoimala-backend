@@ -1,0 +1,31 @@
+###########################################
+##                                       ##
+##       Changes made to this file       ##
+##  will override changes in shared.yml  ##
+##                                       ##
+##               Remember:               ##
+##        "true" and "on" values         ##
+##   must always be wrapped in quotes!   ##
+##                                       ##
+###########################################
+
+# Steps:
+# 1. Convert: "production_domain_placeholder.com" to your desired domain.
+# 2. Fill GOOGLE_CLOUD_STORAGE_BUCKET_NAME env.
+# 3. Fill WP_DEFAULT_THEME.
+
+version: "3.5"
+
+services:
+  web-production:
+    environment:
+      <<: *web
+
+      # CUSTOM - Add your custom project related envs here.
+      
+
+  db-production:
+    environment:
+      <<: *db
+
+      # CUSTOM - Add your custom project related envs here.
