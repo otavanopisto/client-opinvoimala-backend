@@ -1,7 +1,7 @@
 # Any changes made to this file will cause https-proxy to restart and thus making production and stage unavailable for a few seconds to few minutes.
 
 containers:
-    web-production:
+    api-production:
         # Single domain here. Example: geniem.com or handbook.geniem.com.
         main_domain: opinvoimala-api.production.geniem.io
 
@@ -19,7 +19,7 @@ containers:
         # To which port is the request proxy_passed in the container. Will default to 8080 if not given.
         exposed_port: 8080
 
-    web-stage:
+    api-stage:
         # Single domain here. Example: geniem.com or handbook.geniem.com.
         main_domain: opinvoimala-api.stage.geniem.io
 
@@ -76,7 +76,7 @@ DISABLED_health_checks:
             after_fail:
                 3:
                     restart_container:
-                        - web-production
+                        - api-production
                         - db-production
                 
                 6:

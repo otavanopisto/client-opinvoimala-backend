@@ -11,8 +11,8 @@
 
 version: "3.5"
 
-x-web:
-  &web
+x-api:
+  &api
     # CUSTOM - Add your custom project related envs here.
     MYSQL_PORT:
     JWT_SECRET:

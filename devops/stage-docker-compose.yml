@@ -4,12 +4,12 @@
 version: "3.5"
 
 services:
-  web-stage:
+  api-stage:
     image: gcr.io/geniem-stage/client-opinvoimala-backend:stage-latest
 
-    container_name: web-stage
+    container_name: api-stage
 
-    hostname: ${HOSTNAME_PREFIX}-web-stage
+    hostname: ${HOSTNAME_PREFIX}-api-stage
 
     restart: "no"
 
@@ -18,7 +18,7 @@ services:
 
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /mnt/devops/logs/stage/web:/mnt/devops/logs/stage/web
+      - /mnt/devops/logs/stage/api:/mnt/devops/logs/stage/api
 
   db-stage:
     image: gcr.io/geniem-devops/mariadb:10.5.9
