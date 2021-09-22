@@ -8,6 +8,7 @@ COPY app/package.json app/yarn.lock ./
 RUN yarn install
 
 # Install plugin dependencies
+COPY app/plugins/wysiwyg/package.json app/plugins/wysiwyg/yarn.lock ./app/plugins/wysiwyg/
 RUN yarn --cwd "app/plugins/wysiwyg" install
 
 # Bundle app source
