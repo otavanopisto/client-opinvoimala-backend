@@ -7,12 +7,12 @@ WORKDIR /usr/src/app
 COPY app/package.json app/yarn.lock ./
 RUN yarn install
 
-
 # Bundle app source
 COPY app ./
 
 # Install plugin dependencies
-RUN yarn --cwd "app/plugins/wysiwyg" install
+RUN yarn --cwd "plugins/wysiwyg" install
+RUN yarn --cwd "/usr/src/app/plugins/wysiwyg" install
 
 # Build the app inside the container
 RUN yarn build
