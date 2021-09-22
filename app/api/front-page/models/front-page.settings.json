@@ -15,9 +15,6 @@
     "main_title": {
       "type": "string"
     },
-    "subtitle": {
-      "type": "richtext"
-    },
     "description": {
       "type": "richtext"
     },
@@ -30,6 +27,9 @@
       "plugin": "upload",
       "required": false,
       "pluginOptions": {}
+    },
+    "subtitle": {
+      "type": "string"
     },
     "main_image": {
       "model": "file",
