@@ -7,6 +7,9 @@ WORKDIR /usr/src/app
 COPY app/package.json app/yarn.lock ./
 RUN yarn install
 
+# Install plugin dependencies
+RUN yarn --cwd "app/plugins/wysiwyg" install
+
 # Bundle app source
 COPY app ./
 
