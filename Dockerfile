@@ -11,8 +11,7 @@ RUN yarn install
 COPY app ./
 
 # Install plugin dependencies
-RUN yarn --cwd "plugins/wysiwyg" install
-RUN yarn --cwd "/usr/src/app/plugins/wysiwyg" install
+RUN yarn plugins:install:deps
 
 # Build the app inside the container
 RUN yarn build

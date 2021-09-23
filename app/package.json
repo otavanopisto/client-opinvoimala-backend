@@ -7,7 +7,8 @@
     "develop": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
-    "strapi": "strapi"
+    "strapi": "strapi",
+    "plugins:install:deps": "yarn --cwd plugins/wysiwyg install"
   },
   "devDependencies": {},
   "dependencies": {
@@ -20,6 +21,7 @@
     "strapi-plugin-email": "3.6.8",
     "strapi-plugin-upload": "3.6.8",
     "strapi-plugin-i18n": "3.6.8",
+    "strapi-provider-upload-google-cloud-storage": "3.6.5",
     "strapi-connector-bookshelf": "3.6.8",
     "knex": "0.21.18",
     "mysql": "2.18.1"
