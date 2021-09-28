@@ -40,6 +40,13 @@
       "plugin": "upload",
       "required": false,
       "pluginOptions": {}
+    },
+    "navigation": {
+      "model": "navigationitem",
+      "plugin": "navigation",
+      "via": "related",
+      "configurable": false,
+      "hidden": true
     }
   }
 }
