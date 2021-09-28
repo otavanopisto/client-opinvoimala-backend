@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_cards_cards",
+  "info": {
+    "name": "card",
+    "icon": "th",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "text": {
+      "type": "string"
+    },
+    "link": {
+      "type": "component",
+      "repeatable": false,
+      "component": "components.link"
+    }
+  }
+}
