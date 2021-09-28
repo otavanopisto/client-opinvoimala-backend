@@ -15,19 +15,6 @@
     "main_title": {
       "type": "string"
     },
-    "description": {
-      "type": "richtext"
-    },
-    "description_image": {
-      "model": "file",
-      "via": "related",
-      "allowedTypes": [
-        "images"
-      ],
-      "plugin": "upload",
-      "required": false,
-      "pluginOptions": {}
-    },
     "subtitle": {
       "type": "string"
     },
@@ -41,12 +28,23 @@
       "required": false,
       "pluginOptions": {}
     },
-    "navigation": {
-      "model": "navigationitem",
-      "plugin": "navigation",
+    "description": {
+      "type": "richtext"
+    },
+    "description_image": {
+      "model": "file",
       "via": "related",
-      "configurable": false,
-      "hidden": true
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "cards.card"
     }
   }
 }
