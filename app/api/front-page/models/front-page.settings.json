@@ -12,13 +12,13 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "main_title": {
+    "title": {
       "type": "string"
     },
     "subtitle": {
       "type": "string"
     },
-    "main_image": {
+    "image": {
       "model": "file",
       "via": "related",
       "allowedTypes": [
@@ -28,10 +28,10 @@
       "required": false,
       "pluginOptions": {}
     },
-    "description": {
+    "details": {
       "type": "richtext"
     },
-    "description_image": {
+    "details_image": {
       "model": "file",
       "via": "related",
       "allowedTypes": [
@@ -44,7 +44,7 @@
     "cards": {
       "type": "component",
       "repeatable": true,
-      "component": "cards.card"
+      "component": "elements.card"
     }
   }
 }

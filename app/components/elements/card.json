@@ -16,7 +16,7 @@
     "link": {
       "type": "component",
       "repeatable": false,
-      "component": "components.link"
+      "component": "elements.link"
     }
   }
 }
