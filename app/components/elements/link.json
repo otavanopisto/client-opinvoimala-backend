@@ -1,13 +1,18 @@
 {
-  "collectionName": "components_components_links",
+  "collectionName": "components_elements_links",
   "info": {
     "name": "link",
-    "icon": "long-arrow-alt-right"
+    "icon": "long-arrow-alt-right",
+    "description": ""
   },
   "options": {},
   "attributes": {
     "label": {
       "type": "string"
+    },
+    "target_page": {
+      "model": "page",
+      "autoPopulate": false
     }
   }
 }
