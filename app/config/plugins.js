@@ -12,11 +12,4 @@ module.exports = ({ env }) => ({
       uniform: false,
     },
   },
-  navigation: {
-    additionalFields: ["audience"],
-    allowedLevels: 2,
-    contentTypesNameFields: {
-      "front-page": [],
-    },
-  },
 });
