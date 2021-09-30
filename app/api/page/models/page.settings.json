@@ -11,6 +11,10 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "is_public": {
+      "type": "boolean",
+      "default": true
+    },
     "title": {
       "type": "string"
     },
