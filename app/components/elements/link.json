@@ -10,7 +10,7 @@
     "label": {
       "type": "string"
     },
-    "target_page": {
+    "page": {
       "model": "page",
       "autoPopulate": false
     }

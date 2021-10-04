@@ -11,7 +11,7 @@
       "type": "string",
       "required": true
     },
-    "target_page": {
+    "page": {
       "autoPopulate": false,
       "model": "page"
     },
