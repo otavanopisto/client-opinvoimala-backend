@@ -7,8 +7,7 @@
     "develop": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
-    "strapi": "strapi",
-    "plugins:install:deps": "yarn --cwd plugins/wysiwyg install"
+    "strapi": "strapi"
   },
   "devDependencies": {},
   "dependencies": {

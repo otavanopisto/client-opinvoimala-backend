@@ -10,9 +10,6 @@ RUN yarn install
 # Bundle app source
 COPY app ./
 
-# Install plugin dependencies
-RUN yarn plugins:install:deps
-
 # Build the app inside the container
 RUN yarn build
 
