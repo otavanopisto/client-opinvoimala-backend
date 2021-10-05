@@ -5,9 +5,7 @@
  * to customize this service
  */
 
-const crypto = require("crypto");
 const _ = require("lodash");
-const grant = require("grant-koa");
 const { sanitizeEntity } = require("strapi-utils");
 
 const emailRegExp =
@@ -38,7 +36,7 @@ module.exports = {
           null,
           formatError({
             id: "Auth.form.error.email.provide",
-            message: "Please provide your username or your e-mail.",
+            message: "Please provide your e-mail.",
           })
         );
       }
@@ -56,15 +54,10 @@ module.exports = {
 
       const query = { provider };
 
-      // Check if the provided identifier is an email or not.
-      const isEmail = emailRegExp.test(params.identifier);
-
-      // Set the identifier to the appropriate query field.
-      if (isEmail) {
-        query.email = params.identifier.toLowerCase();
-      } else {
-        query.username = params.identifier;
-      }
+      // Hash email (all email addresses are hashed before storing to DB)
+      query.email = await strapi.plugins[
+        "users-permissions"
+      ].services.user.hashValue(params.identifier.toLowerCase());
 
       // Check if the user exists.
       const user = await strapi
@@ -278,6 +271,12 @@ module.exports = {
       "users-permissions"
     ].services.user.hashPassword(params);
 
+    // Hash user's email
+    const userEmail = params.email.toLowerCase();
+    params.email = await strapi.plugins[
+      "users-permissions"
+    ].services.user.hashValue(userEmail);
+
     const user = await strapi.query("user", "users-permissions").findOne({
       email: params.email,
     });
@@ -317,9 +316,12 @@ module.exports = {
 
       if (settings.email_confirmation) {
         try {
+          // Before sending emails, overwrite hashed email address
+          // with the real one (which was reveived as a parameter).
+          const emailUser = { ...user, email: userEmail };
           await strapi.plugins[
             "users-permissions"
-          ].services.user.sendConfirmationEmail(user);
+          ].services.user.sendConfirmationEmail(emailUser);
         } catch (err) {
           return ctx.badRequest(null, err);
         }
