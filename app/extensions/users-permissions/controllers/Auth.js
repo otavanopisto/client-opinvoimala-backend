@@ -5,6 +5,7 @@
  * to customize this service
  */
 
+const crypto = require("crypto");
 const _ = require("lodash");
 const { sanitizeEntity } = require("strapi-utils");
 
@@ -350,6 +351,8 @@ module.exports = {
   },
 
   async forgotPassword(ctx) {
+    const userService = strapi.plugins["users-permissions"].services.user;
+
     const usersPermissionsService =
       strapi.plugins["users-permissions"].services.userspermissions;
 
@@ -376,10 +379,13 @@ module.exports = {
       name: "users-permissions",
     });
 
+    // Hash email address before query (emails are hashed before storing into DB)
+    const hashedEmail = await userService.hashValue(email);
+
     // Find the user by email.
     const user = await strapi
       .query("user", "users-permissions")
-      .findOne({ email });
+      .findOne({ email: hashedEmail });
 
     // User not found.
     if (!user) {
@@ -440,7 +446,7 @@ module.exports = {
     try {
       // Send an email to the user.
       await emailService.send({
-        to: user.email,
+        to: email,
         from:
           settings.from.email || settings.from.name
             ? `${settings.from.name} <${settings.from.email}>`
