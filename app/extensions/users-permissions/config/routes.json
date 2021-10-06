@@ -1,0 +1,19 @@
+{
+  "routes": [
+    {
+      "method": "PUT",
+      "path": "/users/change-password",
+      "handler": "User.changePassword",
+      "config": {
+        "policies": [],
+        "prefix": "",
+        "description": "Changes user's password",
+        "tag": {
+          "plugin": "users-permissions",
+          "name": "User",
+          "actionType": "chagePassword"
+        }
+      }
+    }
+  ]
+}
