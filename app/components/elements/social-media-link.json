@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_elements_social_media_links",
+  "info": {
+    "name": "social_media_link",
+    "icon": "users",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "platform": {
+      "type": "enumeration",
+      "enum": [
+        "facebook",
+        "instagram",
+        "twitter",
+        "youtube",
+        "snapchat"
+      ]
+    },
+    "label": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

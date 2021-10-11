@@ -27,7 +27,7 @@ module.exports = {
       const user = await userService.fetch({ id: ctxUser.id }, ["role"]);
 
       if (!user) {
-        return ctx.badRequest("User does not exist");
+        return ctx.badRequest("User.change_password.user.not_exist");
       }
 
       const validPassword = await userService.validatePassword(
@@ -36,7 +36,7 @@ module.exports = {
       );
 
       if (!validPassword) {
-        return ctx.badRequest("Old password does not match.");
+        return ctx.badRequest("User.change_password.old_password.no_match");
       }
 
       // Note: New password will be hashed in userService's edit method below
@@ -46,6 +46,6 @@ module.exports = {
       return ctx.send(sanitizeUser(data));
     }
 
-    return ctx.badRequest("New passwords do not match.");
+    return ctx.badRequest("User.change_password.new_password.no_match");
   },
 };

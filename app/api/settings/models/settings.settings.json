@@ -2,7 +2,8 @@
   "kind": "singleType",
   "collectionName": "settings",
   "info": {
-    "name": "settings"
+    "name": "settings",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -15,12 +16,16 @@
       "type": "string",
       "required": true
     },
+    "description": {
+      "type": "text"
+    },
+    "organisation": {
+      "type": "string"
+    },
     "logo": {
       "model": "file",
       "via": "related",
-      "allowedTypes": [
-        "images"
-      ],
+      "allowedTypes": ["images"],
       "plugin": "upload",
       "required": true,
       "pluginOptions": {}
@@ -30,6 +35,24 @@
     },
     "email": {
       "type": "email"
+    },
+    "social_media": {
+      "type": "component",
+      "repeatable": true,
+      "component": "elements.social-media-link"
+    },
+    "links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "elements.link"
+    },
+    "logos": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": ["images"],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
     }
   }
 }
