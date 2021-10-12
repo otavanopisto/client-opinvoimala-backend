@@ -11,10 +11,6 @@
       "type": "string",
       "required": true
     },
-    "page": {
-      "autoPopulate": false,
-      "model": "page"
-    },
     "links": {
       "type": "component",
       "repeatable": true,
