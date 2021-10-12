@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/specialist-roles",
+      "handler": "specialist-role.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/specialist-roles/count",
+      "handler": "specialist-role.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/specialist-roles/:id",
+      "handler": "specialist-role.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/specialist-roles",
+      "handler": "specialist-role.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/specialist-roles/:id",
+      "handler": "specialist-role.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/specialist-roles/:id",
+      "handler": "specialist-role.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
