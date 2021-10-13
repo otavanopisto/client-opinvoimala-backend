@@ -16,11 +16,15 @@ const getMeetingLink = async (data) => {
 module.exports = {
   lifecycles: {
     beforeCreate: async (data) => {
-      data.meeting_link = await getMeetingLink(data);
+      if (!data.meeting_link) {
+        data.meeting_link = await getMeetingLink(data);
+      }
     },
 
     beforeUpdate: async (params, data) => {
-      data.meeting_link = await getMeetingLink(data);
+      if (!data.meeting_link) {
+        data.meeting_link = await getMeetingLink(data);
+      }
     },
   },
 };
