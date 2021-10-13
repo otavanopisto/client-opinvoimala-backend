@@ -11,7 +11,22 @@
         "tag": {
           "plugin": "users-permissions",
           "name": "User",
-          "actionType": "chagePassword"
+          "actionType": "changePassword"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/users/me/appointments",
+      "handler": "User.appointments",
+      "config": {
+        "policies": [],
+        "prefix": "",
+        "description": "Retrieves user's appointments",
+        "tag": {
+          "plugin": "users-permissions",
+          "name": "User",
+          "actionType": "getAppointments"
         }
       }
     }

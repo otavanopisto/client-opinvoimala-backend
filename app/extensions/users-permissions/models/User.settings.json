@@ -1,4 +1,5 @@
 {
+  "kind": "collectionType",
   "collectionName": "users-permissions_user",
   "info": {
     "name": "user",
@@ -58,6 +59,10 @@
       "via": "users",
       "plugin": "users-permissions",
       "configurable": false
+    },
+    "appointments": {
+      "via": "users_permissions_user",
+      "collection": "appointment"
     }
   }
 }

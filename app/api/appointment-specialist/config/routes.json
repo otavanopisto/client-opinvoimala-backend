@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/appointment-specialists",
+      "handler": "appointment-specialist.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/appointment-specialists/count",
+      "handler": "appointment-specialist.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/appointment-specialists/:id",
+      "handler": "appointment-specialist.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/appointment-specialists",
+      "handler": "appointment-specialist.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/appointment-specialists/:id",
+      "handler": "appointment-specialist.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/appointment-specialists/:id",
+      "handler": "appointment-specialist.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

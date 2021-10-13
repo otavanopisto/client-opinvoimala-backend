@@ -13,6 +13,11 @@ const sanitizeUser = (user) =>
     model: strapi.query("user", "users-permissions").model,
   });
 
+const sanitizeAppointment = (appointment) =>
+  sanitizeEntity(appointment, {
+    model: strapi.query("appointment").model,
+  });
+
 module.exports = {
   async changePassword(ctx) {
     const ctxUser = ctx.state.user;
@@ -47,5 +52,45 @@ module.exports = {
     }
 
     return ctx.badRequest("User.change_password.new_password.no_match");
+  },
+
+  async getSpecialist(id) {
+    const specialistService = strapi.services["appointment-specialist"];
+
+    const specialist = await specialistService.findOne({ id });
+
+    if (!specialist?.name && !specialist?.role) return null;
+
+    return {
+      name: specialist.name,
+      role: specialist.specialist_role?.role,
+    };
+  },
+
+  /**
+   * @return all appointments for authenticated user
+   */
+  async appointments(ctx) {
+    const ctxUser = ctx.state.user;
+    const userService = strapi.plugins["users-permissions"].services.user;
+
+    const user = await userService.fetch({ id: ctxUser.id }, ["appointments"]);
+
+    if (!user) {
+      return ctx.badRequest(null, [
+        { messages: [{ id: "No authorization header was found" }] },
+      ]);
+    }
+
+    const appointments = await Promise.all(
+      user.appointments?.map(async (appointment) => ({
+        ...sanitizeAppointment(appointment),
+        appointment_specialist: await this.getSpecialist(
+          appointment.appointment_specialist
+        ),
+      }))
+    );
+
+    ctx.body = appointments ?? [];
   },
 };

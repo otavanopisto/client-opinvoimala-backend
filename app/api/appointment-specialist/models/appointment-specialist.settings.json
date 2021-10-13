@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "appointment_specialists",
+  "info": {
+    "name": "Appointment specialist",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "specialist_role": {
+      "model": "specialist-role"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "meeting_link": {
+      "type": "string",
+      "required": true
+    },
+    "name_and_role": {
+      "type": "string",
+      "private": true,
+      "configurable": false
+    }
+  }
+}

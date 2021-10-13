@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "appointments",
+  "info": {
+    "name": "appointment",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "visible": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "cancelled": {
+      "type": "boolean"
+    },
+    "start_time": {
+      "type": "datetime",
+      "required": true
+    },
+    "end_time": {
+      "type": "datetime",
+      "required": true
+    },
+    "users_permissions_user": {
+      "private": true,
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "appointments"
+    },
+    "appointment_specialist": {
+      "model": "appointment-specialist"
+    },
+    "meeting_link": {
+      "type": "string",
+      "configurable": false
+    }
+  }
+}

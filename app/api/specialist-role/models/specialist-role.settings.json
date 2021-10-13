@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "specialist_roles",
+  "info": {
+    "name": "Specialist role"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "role": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
