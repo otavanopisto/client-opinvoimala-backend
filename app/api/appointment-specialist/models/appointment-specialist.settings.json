@@ -13,9 +13,7 @@
   "pluginOptions": {},
   "attributes": {
     "name_and_role": {
-      "type": "string",
-      "private": true,
-      "configurable": false
+      "type": "string"
     },
     "specialist_role": {
       "model": "specialist-role"
