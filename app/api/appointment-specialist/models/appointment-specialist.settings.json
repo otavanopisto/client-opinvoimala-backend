@@ -12,6 +12,11 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "name_and_role": {
+      "type": "string",
+      "private": true,
+      "configurable": false
+    },
     "specialist_role": {
       "model": "specialist-role"
     },
@@ -23,10 +28,8 @@
       "type": "string",
       "required": true
     },
-    "name_and_role": {
-      "type": "string",
-      "private": true,
-      "configurable": false
+    "email": {
+      "type": "email"
     }
   }
 }
