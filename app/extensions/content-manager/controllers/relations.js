@@ -4,10 +4,21 @@ const { has, prop, pick, concat } = require("lodash/fp");
 const { PUBLISHED_AT_ATTRIBUTE } =
   require("strapi-utils").contentTypes.constants;
 
-const { getService } = require("../utils");
+const { getService } = require("strapi-plugin-content-manager/utils");
+
+// Restricted users should see only their own data for restricted fields.
+const isRestricted = (user, targetField) => {
+  const userRoles = user.roles.map(({ code }) => code);
+  const restrictedFields = ["appointment_specialist", "user"];
+  const isRestrictedRole = userRoles.includes("strapi-author");
+  const isRestrictedField = restrictedFields.includes(targetField);
+
+  return isRestrictedRole && isRestrictedField;
+};
 
 module.exports = {
   async find(ctx) {
+    const { user } = ctx.state;
     const { model, targetField } = ctx.params;
     const { _component, ...query } = ctx.request.query;
     const { idsToOmit } = ctx.request.body;
@@ -38,6 +49,10 @@ module.exports = {
     if (idsToOmit && Array.isArray(idsToOmit)) {
       query._where = query._where || {};
       query._where.id_nin = concat(query._where.id_nin || [], idsToOmit);
+    }
+
+    if (isRestricted(user, targetField)) {
+      query.created_by = `${user.id}`;
     }
 
     const entityManager = getService("entity-manager");
