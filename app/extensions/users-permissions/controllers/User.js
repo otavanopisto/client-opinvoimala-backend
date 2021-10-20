@@ -62,8 +62,10 @@ module.exports = {
     if (!specialist?.name && !specialist?.role) return null;
 
     return {
+      id: specialist.id,
       name: specialist.name,
       role: specialist.specialist_role?.role,
+      role_id: specialist.specialist_role?.id,
     };
   },
 
