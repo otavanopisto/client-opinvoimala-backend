@@ -1,5 +1,6 @@
 "use strict";
 
+const { sanitizeEntity } = require("strapi-utils");
 const { DateTime } = require("luxon");
 const {
   notifySpecialist,
@@ -69,7 +70,53 @@ const timeFromNow = (isoDate, unit = "hours") => {
   return diff.toObject()[unit];
 };
 
+const getRole = async (id) => {
+  return await strapi.services["specialist-role"].findOne({ id });
+};
+
+const getSanitizedAppointment = async (appointment) => {
+  const specialist_role = appointment.appointment_specialist?.specialist_role;
+
+  const role_id = specialist_role?.id
+    ? specialist_role?.id
+    : Number(specialist_role);
+
+  const role = specialist_role?.role ? specialist_role : await getRole(role_id);
+
+  const entity = {
+    ...appointment,
+    appointment_specialist: {
+      id: appointment.appointment_specialist.id,
+      name: appointment.appointment_specialist.name,
+      role: role.role,
+      role_id: role.id,
+    },
+  };
+
+  return sanitizeEntity(entity, { model: strapi.models.appointment });
+};
+
 module.exports = {
+  async find(ctx) {
+    let entities;
+    if (ctx.query._q) {
+      entities = await strapi.services.appointment.search(ctx.query);
+    } else {
+      entities = await strapi
+        .query("appointment")
+        .find(ctx.query, [
+          "appointment_specialist",
+          "appointment_specialist.specialist_role",
+        ]);
+    }
+
+    return Promise.all(
+      entities.map(
+        async (appointment) => await getSanitizedAppointment(appointment)
+      )
+    );
+  },
+
   async makeAppointment(ctx) {
     const { id } = ctx.params;
     const ctxUser = ctx.state.user;
@@ -106,6 +153,8 @@ module.exports = {
     const entity = await strapi.services.appointment.update({ id }, body);
 
     if (entity.user.id === user.id && entity.status === "booked") {
+      const sanitizedEntity = await getSanitizedAppointment(entity);
+
       try {
         const userEmail = notifyUser.appointmentConfirmationEmail(
           appointment,
@@ -125,12 +174,14 @@ module.exports = {
         await emailService.send(specialistEmail);
       } catch (err) {
         return ctx.send({
-          ok: true,
+          data: sanitizedEntity,
           message: "Success, but notification email(s) couldn't be sent",
         });
       }
 
-      return ctx.send({ ok: true });
+      return ctx.send({
+        data: sanitizedEntity,
+      });
     } else {
       return errorResponse(ctx, [ERROR.MAKE_APPOINTMENT.FAIL]);
     }
