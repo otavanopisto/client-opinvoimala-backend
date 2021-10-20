@@ -61,7 +61,7 @@
       "configurable": false
     },
     "appointments": {
-      "via": "users_permissions_user",
+      "via": "user",
       "collection": "appointment"
     }
   }

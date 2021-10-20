@@ -47,6 +47,24 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "POST",
+      "path": "/appointments/:id/cancel",
+      "handler": "appointment.cancel",
+      "config": {
+        "policies": [],
+        "description": "Cancels appointment for authenticated user"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/appointments/:id/make",
+      "handler": "appointment.makeAppointment",
+      "config": {
+        "policies": [],
+        "description": "Book appointment for authenticated user"
+      }
     }
   ]
 }
