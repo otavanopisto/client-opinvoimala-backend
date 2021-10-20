@@ -78,7 +78,7 @@ const getRole = async (id) => {
 const sanitizeSpecialist = async (specialist) => {
   if (!specialist) return null;
 
-  const { id, name, specialist_role } = specialist.specialist_role;
+  const { id, name, specialist_role } = specialist;
 
   const role_id = specialist_role?.id
     ? specialist_role.id
