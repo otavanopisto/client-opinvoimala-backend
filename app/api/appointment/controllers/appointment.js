@@ -71,26 +71,29 @@ const timeFromNow = (isoDate, unit = "hours") => {
 };
 
 const getRole = async (id) => {
+  if (!id) return null;
   return await strapi.services["specialist-role"].findOne({ id });
 };
 
-const getSanitizedAppointment = async (appointment) => {
-  const specialist_role = appointment.appointment_specialist?.specialist_role;
+const sanitizeSpecialist = async (specialist) => {
+  if (!specialist) return null;
+
+  const { id, name, specialist_role } = specialist.specialist_role;
 
   const role_id = specialist_role?.id
-    ? specialist_role?.id
+    ? specialist_role.id
     : Number(specialist_role);
 
   const role = specialist_role?.role ? specialist_role : await getRole(role_id);
 
+  return { id, name, role: role?.role, role_id: role?.id };
+};
+
+const sanitizeAppointment = async (appointment) => {
+  const { appointment_specialist } = appointment;
   const entity = {
     ...appointment,
-    appointment_specialist: {
-      id: appointment.appointment_specialist.id,
-      name: appointment.appointment_specialist.name,
-      role: role.role,
-      role_id: role.id,
-    },
+    appointment_specialist: await sanitizeSpecialist(appointment_specialist),
   };
 
   return sanitizeEntity(entity, { model: strapi.models.appointment });
@@ -112,7 +115,7 @@ module.exports = {
 
     return Promise.all(
       entities.map(
-        async (appointment) => await getSanitizedAppointment(appointment)
+        async (appointment) => await sanitizeAppointment(appointment)
       )
     );
   },
@@ -153,7 +156,7 @@ module.exports = {
     const entity = await strapi.services.appointment.update({ id }, body);
 
     if (entity.user.id === user.id && entity.status === "booked") {
-      const sanitizedEntity = await getSanitizedAppointment(entity);
+      const sanitizedEntity = await sanitizeAppointment(entity);
 
       try {
         const userEmail = notifyUser.appointmentConfirmationEmail(
