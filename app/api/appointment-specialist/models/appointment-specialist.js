@@ -6,9 +6,12 @@
  */
 
 const getNameAndRole = async (data) => {
-  const specialist_role = await strapi
-    .query("specialist-role")
-    .findOne({ id: data.specialist_role }, []);
+  let specialist_role = { role: "" };
+  if (data.specialist_role) {
+    specialist_role = await strapi
+      .query("specialist-role")
+      .findOne({ id: data.specialist_role }, []);
+  }
 
   return `${specialist_role.role} ${data.name}`;
 };
