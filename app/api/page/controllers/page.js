@@ -43,6 +43,29 @@ const isUserAllowed = (user, page) => {
  */
 
 module.exports = {
+  async find(ctx) {
+    const user = ctx.state.user;
+
+    let entities;
+    if (ctx.query._q) {
+      entities = await strapi.services.page.search(ctx.query);
+    } else {
+      entities = await strapi.services.page.find(ctx.query);
+    }
+
+    const allowedEntities = entities.filter(
+      (entity) => isPublicPage(entity) || isUserAllowed(user, entity)
+    );
+
+    if (entities.length && !allowedEntities.length) {
+      return errorResponse(ctx, [], "forbidden");
+    }
+
+    return allowedEntities.map((entity) =>
+      sanitizeEntity(entity, { model: strapi.models.page })
+    );
+  },
+
   async findOne(ctx) {
     const { id } = ctx.params;
     const user = ctx.state.user;

@@ -12,7 +12,7 @@
     },
     "page": {
       "model": "page",
-      "autoPopulate": false
+      "autoPopulate": true
     }
   }
 }
