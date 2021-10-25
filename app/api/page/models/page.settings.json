@@ -17,7 +17,7 @@
     },
     "slug": {
       "type": "string",
-      "unique": true
+      "unique": false
     },
     "lead": {
       "type": "string"

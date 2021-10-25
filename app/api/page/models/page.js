@@ -18,7 +18,6 @@ module.exports = {
     },
 
     beforeUpdate: async (params, data) => {
-      console.log(data);
       if (!data.slug) {
         data.slug = createSlug(data.title);
       } else {
