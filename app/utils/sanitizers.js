@@ -6,6 +6,7 @@ const sanitizePageForNavigation = (page) => {
     id: page.id,
     title: page.title,
     slug: page.slug,
+    is_public: !page.users_permissions_roles?.length,
   };
 };
 
