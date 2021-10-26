@@ -1,11 +1,12 @@
 "use strict";
 
-const { sanitizeEntity } = require("strapi-utils");
+const { sanitizePage } = require("../../../utils/sanitizers");
+const { isPublic, isUserAllowed } = require("../../../utils/auth");
 
-const sanitizedPage = (page) => {
-  delete page.users_permissions_roles;
-  return sanitizeEntity(page, { model: strapi.models.page });
-};
+const POPULATE = [
+  "users_permissions_roles",
+  "link_list.links.page.users_permissions_roles",
+];
 
 const errorResponse = (ctx, errors, type) => {
   switch (type) {
@@ -14,27 +15,6 @@ const errorResponse = (ctx, errors, type) => {
     default:
       return ctx.badRequest(null, [{ messages: errors }]);
   }
-};
-
-const isPublicPage = (page) => {
-  const roles = page.users_permissions_roles;
-  const roleTypes = roles.map(({ type }) => type);
-
-  return !roles.length || roleTypes.includes("public");
-};
-
-const isUserAllowed = (user, page) => {
-  const roles = page.users_permissions_roles;
-  const roleIds = roles.map(({ id }) => id);
-
-  // Page is public if no roles are set
-  if (!roles.length) return true;
-
-  // No user or user has no role -> not allowed
-  if (!user?.role) return false;
-
-  // Allowed if user's role match to ones defined for the page
-  return roleIds.includes(user.role.id);
 };
 
 /**
@@ -50,30 +30,30 @@ module.exports = {
     if (ctx.query._q) {
       entities = await strapi.services.page.search(ctx.query);
     } else {
-      entities = await strapi.services.page.find(ctx.query);
+      entities = await strapi.services.page.find(ctx.query, POPULATE);
     }
 
-    const allowedEntities = entities.filter(
-      (entity) => isPublicPage(entity) || isUserAllowed(user, entity)
-    );
+    const allowedEntities = entities.filter((entity) => {
+      const roles = entity.users_permissions_roles;
+      return isPublic(roles) || isUserAllowed(user, roles);
+    });
 
     if (entities.length && !allowedEntities.length) {
       return errorResponse(ctx, [], "forbidden");
     }
 
-    return allowedEntities.map((entity) =>
-      sanitizeEntity(entity, { model: strapi.models.page })
-    );
+    return allowedEntities.map((entity) => sanitizePage(entity));
   },
 
   async findOne(ctx) {
     const { id } = ctx.params;
     const user = ctx.state.user;
 
-    const page = await strapi.services.page.findOne({ id });
+    const page = await strapi.services.page.findOne({ id }, POPULATE);
 
-    if (isPublicPage(page) || isUserAllowed(user, page)) {
-      return sanitizedPage(page);
+    const roles = page.users_permissions_roles;
+    if (isPublic(roles) || isUserAllowed(user, roles)) {
+      return sanitizePage(page);
     }
 
     return errorResponse(ctx, [], "forbidden");

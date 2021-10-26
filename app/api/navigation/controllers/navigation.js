@@ -9,7 +9,10 @@ const { sanitizeNavigation } = require("../../../utils/sanitizers");
 
 module.exports = {
   async find(ctx) {
-    const entity = await strapi.services.navigation.find();
+    const entity = await strapi.services.navigation.find(ctx.query, [
+      "items.links.page.users_permissions_roles",
+    ]);
+
     return sanitizeNavigation(entity);
   },
 };
