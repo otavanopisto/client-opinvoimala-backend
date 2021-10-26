@@ -9,7 +9,12 @@ const { sanitizeFrontPage } = require("../../../utils/sanitizers");
 
 module.exports = {
   async find(ctx) {
-    const entity = await strapi.services["front-page"].find();
+    const entity = await strapi.services["front-page"].find(ctx.query, [
+      "image",
+      "details_image",
+      "cards.link.page.users_permissions_roles",
+    ]);
+
     return sanitizeFrontPage(entity);
   },
 };

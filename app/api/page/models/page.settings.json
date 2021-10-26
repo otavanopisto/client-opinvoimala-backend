@@ -29,6 +29,11 @@
       "plugin": "users-permissions",
       "collection": "role",
       "via": "page"
+    },
+    "links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "elements.link"
     }
   }
 }

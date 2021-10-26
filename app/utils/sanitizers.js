@@ -1,12 +1,13 @@
 const { sanitizeEntity } = require("strapi-utils");
+const { isPublic } = require("./auth");
 
-const sanitizePageForNavigation = (page) => {
-  if (!page) return null;
+const sanitizeLinkTarget = (target) => {
+  if (!target) return null;
   return {
-    id: page.id,
-    title: page.title,
-    slug: page.slug,
-    is_public: !page.users_permissions_roles?.length,
+    id: target.id,
+    title: target.title,
+    slug: target.slug,
+    is_public: isPublic(target.users_permissions_roles),
   };
 };
 
@@ -14,7 +15,7 @@ const sanitizeLink = (link) => {
   if (!link) return null;
   return {
     ...link,
-    page: sanitizePageForNavigation(link.page),
+    page: sanitizeLinkTarget(link.page),
   };
 };
 
@@ -60,11 +61,21 @@ const sanitizeNavigation = (navigation) => {
   return sanitizeEntity(_navigation, { model: strapi.models.navigation });
 };
 
+const sanitizePage = (page) => {
+  delete page.users_permissions_roles;
+  const _page = {
+    ...page,
+    links: page.links?.map(sanitizeLink),
+  };
+  return sanitizeEntity(_page, { model: strapi.models.page });
+};
+
 module.exports = {
-  sanitizePageForNavigation,
+  sanitizeLinkTarget,
   sanitizeLink,
   sanitizeCard,
   sanitizeFrontPage,
   sanitizeSettings,
   sanitizeNavigation,
+  sanitizePage,
 };
