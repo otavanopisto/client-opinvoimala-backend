@@ -10,9 +10,21 @@
     "label": {
       "type": "string"
     },
+    "type": {
+      "type": "enumeration",
+      "enum": ["page", "test", "exercise", "external", "internal"],
+      "required": true,
+      "private": false
+    },
     "page": {
       "model": "page",
-      "autoPopulate": false
+      "autoPopulate": true
+    },
+    "external": {
+      "type": "string"
+    },
+    "internal": {
+      "type": "string"
     }
   }
 }
