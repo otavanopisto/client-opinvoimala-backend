@@ -19,6 +19,14 @@ const sanitizeLink = (link) => {
   };
 };
 
+const sanitizeLinkList = (linkList) => {
+  if (!linkList) return null;
+  return {
+    ...linkList,
+    links: linkList.links.map(sanitizeLink),
+  };
+};
+
 const sanitizeCard = (card) => {
   if (!card) return null;
   return {
@@ -65,7 +73,7 @@ const sanitizePage = (page) => {
   delete page.users_permissions_roles;
   const _page = {
     ...page,
-    links: page.links?.map(sanitizeLink),
+    link_list: sanitizeLinkList(page.link_list),
   };
   return sanitizeEntity(_page, { model: strapi.models.page });
 };

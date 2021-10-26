@@ -30,10 +30,10 @@
       "collection": "role",
       "via": "page"
     },
-    "links": {
+    "link_list": {
       "type": "component",
-      "repeatable": true,
-      "component": "elements.link"
+      "repeatable": false,
+      "component": "elements.link-list"
     }
   }
 }
