@@ -1,8 +1,9 @@
+const _ = require("lodash");
 const { sanitizeEntity } = require("strapi-utils");
 const { isPublic } = require("./auth");
 
 const sanitizeLinkTarget = (target) => {
-  if (!target) return null;
+  if (!target || _.isEmpty(target)) return null;
   return {
     id: target.id,
     title: target.title,
@@ -12,15 +13,22 @@ const sanitizeLinkTarget = (target) => {
 };
 
 const sanitizeLink = (link) => {
-  if (!link) return null;
+  if (!link || _.isEmpty(link)) return null;
   return {
     ...link,
     page: sanitizeLinkTarget(link.page),
+    // TODO: Just return one target/href/src/etc value based on link.type:
+    // target: sanitizeLinkTarget(getLinkTarget(link))
+    // page: null,
+    // test: null,
+    // exercise: null,
+    // internal: null,
+    // external: null,
   };
 };
 
 const sanitizeLinkList = (linkList) => {
-  if (!linkList) return null;
+  if (!linkList || _.isEmpty(linkList)) return null;
   return {
     ...linkList,
     links: linkList.links.map(sanitizeLink),
@@ -28,7 +36,7 @@ const sanitizeLinkList = (linkList) => {
 };
 
 const sanitizeCard = (card) => {
-  if (!card) return null;
+  if (!card || _.isEmpty(card)) return null;
   return {
     ...card,
     link: sanitizeLink(card.link),
@@ -36,7 +44,7 @@ const sanitizeCard = (card) => {
 };
 
 const sanitizeFrontPage = (frontPage) => {
-  if (!frontPage) return null;
+  if (!frontPage || _.isEmpty(frontPage)) return null;
   const _frontPage = {
     ...frontPage,
     cards: frontPage.cards.map(sanitizeCard),
@@ -45,7 +53,7 @@ const sanitizeFrontPage = (frontPage) => {
 };
 
 const sanitizeSettings = (settings) => {
-  if (!settings) return null;
+  if (!settings || _.isEmpty(settings)) return null;
 
   const _settings = {
     ...settings,
@@ -56,7 +64,7 @@ const sanitizeSettings = (settings) => {
 };
 
 const sanitizeNavigation = (navigation) => {
-  if (!navigation) return null;
+  if (!navigation || _.isEmpty(navigation)) return null;
 
   const _navigation = {
     ...navigation,
@@ -70,6 +78,8 @@ const sanitizeNavigation = (navigation) => {
 };
 
 const sanitizePage = (page) => {
+  if (!page || _.isEmpty(page)) return null;
+
   delete page.users_permissions_roles;
   const _page = {
     ...page,
