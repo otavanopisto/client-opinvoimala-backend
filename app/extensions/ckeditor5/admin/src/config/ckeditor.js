@@ -65,19 +65,19 @@ module.exports = {
     //         icon: "large"
     //     }
     // ],
-    // toolbar: [
-    //     "imageStyle:alignLeft",
-    //     "imageStyle:alignCenter",
-    //     "imageStyle:alignRight",
-    //     "|",
-    //     "imageTextAlternative",
-    //     "|",
-    //     "resizeImage:50",
-    //     "resizeImage:75",
-    //     "resizeImage:original",
-    //     "|",
-    //     "linkImage",
-    // ]
+    toolbar: [
+        // "imageStyle:alignLeft",
+        // "imageStyle:alignCenter",
+        // "imageStyle:alignRight",
+        // "|",
+        "imageTextAlternative",
+        // "|",
+        // "resizeImage:50",
+        // "resizeImage:75",
+        // "resizeImage:original",
+        "|",
+        "linkImage",
+    ]
   },
   // table: {
   // contentToolbar: [
