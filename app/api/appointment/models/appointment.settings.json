@@ -35,10 +35,10 @@
       "required": true
     },
     "user": {
-      "private": true,
+      "via": "appointments",
       "plugin": "users-permissions",
-      "model": "user",
-      "via": "appointments"
+      "private": true,
+      "model": "user"
     },
     "appointment_specialist": {
       "model": "appointment-specialist"

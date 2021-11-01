@@ -199,6 +199,17 @@ module.exports = {
       provider: "local",
     };
 
+    // Terms should be accepted
+    if (!params.termsAccepted) {
+      return ctx.badRequest(
+        null,
+        formatError({
+          id: "Auth.form.error.terms.not_accepted",
+          message: "Terms are not accepted.",
+        })
+      );
+    }
+
     // Password is required.
     if (!params.password) {
       return ctx.badRequest(
