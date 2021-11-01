@@ -88,6 +88,13 @@ const sanitizePage = (page) => {
   return sanitizeEntity(_page, { model: strapi.models.page });
 };
 
+const sanitizeTest = (test) => {
+  if (!test || _.isEmpty(test)) return null;
+
+  delete test.roles;
+  return sanitizeEntity(test, { model: strapi.models.test });
+};
+
 module.exports = {
   sanitizeLinkTarget,
   sanitizeLink,
@@ -96,4 +103,5 @@ module.exports = {
   sanitizeSettings,
   sanitizeNavigation,
   sanitizePage,
+  sanitizeTest,
 };
