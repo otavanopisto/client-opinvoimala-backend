@@ -1,0 +1,38 @@
+{
+  "collectionName": "components_tests_test_questions",
+  "info": {
+    "name": "test_question",
+    "icon": "question",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "content": {
+      "type": "richtext"
+    },
+    "is_trigger_question": {
+      "type": "boolean",
+      "default": false
+    },
+    "answer_type": {
+      "type": "component",
+      "repeatable": false,
+      "component": "tests.answer-type",
+      "required": false
+    },
+    "point_options": {
+      "type": "component",
+      "repeatable": true,
+      "component": "tests.test-question-point-option"
+    },
+    "suitablity_options": {
+      "type": "component",
+      "repeatable": true,
+      "component": "tests.test-question-suitability-option"
+    }
+  }
+}

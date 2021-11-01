@@ -1,0 +1,69 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tests",
+  "info": {
+    "name": "Test",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "test",
+        "exercise"
+      ],
+      "required": true,
+      "default": "test"
+    },
+    "outcome_type": {
+      "type": "enumeration",
+      "enum": [
+        "total_points",
+        "suitability_of_answers",
+        "from_template"
+      ]
+    },
+    "affects_user_profile": {
+      "type": "boolean",
+      "default": true
+    },
+    "roles": {
+      "plugin": "users-permissions",
+      "collection": "role",
+      "via": "test"
+    },
+    "template": {
+      "model": "test-templates"
+    },
+    "questions": {
+      "type": "component",
+      "repeatable": true,
+      "component": "tests.test-question"
+    },
+    "outcomes": {
+      "type": "component",
+      "repeatable": false,
+      "component": "tests.test-outcome-list"
+    },
+    "categories": {
+      "collection": "test-category",
+      "via": "test"
+    }
+  }
+}

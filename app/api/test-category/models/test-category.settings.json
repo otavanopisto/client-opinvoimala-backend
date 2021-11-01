@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "test_categories",
+  "info": {
+    "name": "Test category",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "test": {
+      "via": "categories",
+      "model": "test"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_tests_answer_types",
+  "info": {
+    "name": "answer_type",
+    "icon": "sliders-h",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "multiple_choice",
+        "dropdown",
+        "slider",
+        "text",
+        "none"
+      ],
+      "required": true
+    }
+  }
+}

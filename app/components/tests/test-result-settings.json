@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_tests_test_result_settings",
+  "info": {
+    "name": "test_result_settings",
+    "icon": "cogs"
+  },
+  "options": {},
+  "attributes": {
+    "show_total_points": {
+      "type": "boolean",
+      "default": true,
+      "required": false
+    },
+    "show_maximum_points": {
+      "type": "boolean",
+      "default": true,
+      "required": false
+    },
+    "show_stars": {
+      "type": "boolean",
+      "default": true,
+      "required": false
+    }
+  }
+}

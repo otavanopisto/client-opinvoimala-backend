@@ -1,0 +1,45 @@
+{
+  "collectionName": "components_tests_test_outcomes",
+  "info": {
+    "name": "test_outcome",
+    "icon": "window-restore",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "is_trigger_outcome": {
+      "type": "boolean"
+    },
+    "outcome_value": {
+      "type": "string"
+    },
+    "content": {
+      "type": "richtext"
+    },
+    "image": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "stars": {
+      "type": "integer",
+      "min": 1,
+      "max": 5
+    },
+    "point_scale_min": {
+      "type": "integer"
+    },
+    "point_scale_max": {
+      "type": "integer"
+    }
+  }
+}

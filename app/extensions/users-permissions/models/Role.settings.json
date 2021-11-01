@@ -42,6 +42,10 @@
     "page": {
       "via": "users_permissions_roles",
       "model": "page"
+    },
+    "test": {
+      "via": "roles",
+      "model": "test"
     }
   }
 }

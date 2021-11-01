@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_tests_test_question_suitability_options",
+  "info": {
+    "name": "test_question_suitability_option",
+    "icon": "arrows-alt-h"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "outcome_value": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
