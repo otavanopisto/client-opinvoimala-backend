@@ -46,7 +46,8 @@
     "roles": {
       "plugin": "users-permissions",
       "collection": "role",
-      "via": "test"
+      "via": "tests",
+      "dominant": true
     },
     "template": {
       "model": "test-templates"
