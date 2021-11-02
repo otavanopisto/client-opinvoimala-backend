@@ -25,12 +25,19 @@ const composeSimpleTest = (test) => ({
   name: test.name,
   slug: test.slug,
   type: test.type,
+  description: test.description,
   is_public: isPublic(test.roles),
   categories: test.categories.map((category) => ({
     id: category.id,
     label: category.label,
   })),
+  published_at: test.published_at,
+  updated_at: test.updated_at,
 });
+
+const sortTests = (a, b) => {
+  return b.published_at.localeCompare(a.published_at);
+};
 
 /**
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
@@ -51,7 +58,7 @@ module.exports = {
     // Complete entity is needed only when fetching just one test with either slug or id.
     if (!ctx.query.slug && !ctx.query.id) {
       // No slug or id -> return list of all entities, but strip them first.
-      return entities.map(composeSimpleTest);
+      return entities.map(composeSimpleTest).sort(sortTests);
     }
 
     const allowedEntities = entities.filter((entity) => {

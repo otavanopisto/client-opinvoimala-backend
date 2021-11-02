@@ -63,7 +63,8 @@
     },
     "categories": {
       "collection": "test-category",
-      "via": "test"
+      "via": "tests",
+      "dominant": true
     }
   }
 }

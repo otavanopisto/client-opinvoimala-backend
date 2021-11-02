@@ -26,9 +26,14 @@
       "required": false,
       "pluginOptions": {}
     },
-    "test": {
+    "order": {
+      "type": "integer",
+      "default": 1,
+      "required": true
+    },
+    "tests": {
       "via": "categories",
-      "model": "test"
+      "collection": "test"
     }
   }
 }
