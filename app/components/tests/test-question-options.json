@@ -17,7 +17,7 @@
       "repeatable": true,
       "component": "tests.test-question-point-option"
     },
-    "suitablity_options": {
+    "suitability_options": {
       "type": "component",
       "repeatable": true,
       "component": "tests.test-question-suitability-option"

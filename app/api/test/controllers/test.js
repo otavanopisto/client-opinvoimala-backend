@@ -35,6 +35,60 @@ const composeSimpleTest = (test) => ({
   updated_at: test.updated_at,
 });
 
+const toSimpleOption = ({ id, label }) => ({ id, label });
+
+const getPointOptions = (template, question) =>
+  question.point_options.length
+    ? question.point_options
+    : template.options.point_options;
+
+const getSuitabilityOptions = (template, question) =>
+  question.suitability_options.length
+    ? question.suitability_options
+    : template.options.suitability_options;
+
+const getOptions = (template, question, outcome_type) => {
+  const options =
+    outcome_type === "suitability_of_answers"
+      ? getSuitabilityOptions(template, question)
+      : getPointOptions(template, question);
+
+  return options.map(toSimpleOption);
+};
+
+const composeQuestion = (template, outcome_type) => (question) => {
+  const composedQuestion = {
+    ...question,
+    options: getOptions(template, question, outcome_type),
+    answer_type: question.answer_type?.type
+      ? question.answer_type.type
+      : template.options.answer_type.type,
+  };
+
+  delete composedQuestion.point_options;
+  delete composedQuestion.suitability_options;
+
+  return composedQuestion;
+};
+
+const composeTest = async (test) => {
+  const template = await getTestTemplate(test.template);
+
+  const outcome_type =
+    !test.outcome_type || test.outcome_type === "from_template"
+      ? template.outcome_type
+      : test.outcome_type;
+
+  const questions = test.questions.map(composeQuestion(template, outcome_type));
+
+  delete test.template;
+  delete test.outcomes;
+  delete test.outcome_type;
+  delete test.affects_user_profile;
+
+  return { ...test, questions };
+};
+
 const sortTests = (a, b) => {
   return b.published_at.localeCompare(a.published_at);
 };
@@ -70,10 +124,9 @@ module.exports = {
     }
 
     return Promise.all(
-      allowedEntities.map(async (entity) => ({
-        ...entity,
-        template: await getTestTemplate(entity.template),
-      }))
+      allowedEntities.map(async (entity) =>
+        sanitizeTest(await composeTest(entity))
+      )
     );
   },
 
@@ -85,10 +138,7 @@ module.exports = {
 
     const roles = test.roles;
     if (isPublic(roles) || isUserAllowed(user, roles)) {
-      return sanitizeTest({
-        ...test,
-        template: await getTestTemplate(test.template),
-      });
+      return sanitizeTest(await composeTest(test));
     }
 
     return errorResponse(ctx, [], "forbidden");

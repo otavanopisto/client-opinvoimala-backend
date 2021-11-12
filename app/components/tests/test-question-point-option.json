@@ -2,7 +2,8 @@
   "collectionName": "components_tests_test_question_point_options",
   "info": {
     "name": "test_question_point_option",
-    "icon": "star"
+    "icon": "star",
+    "description": ""
   },
   "options": {},
   "attributes": {
@@ -12,6 +13,10 @@
     },
     "points": {
       "type": "integer"
+    },
+    "is_trigger_option": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
