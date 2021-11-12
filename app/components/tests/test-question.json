@@ -14,10 +14,6 @@
     "content": {
       "type": "richtext"
     },
-    "is_trigger_question": {
-      "type": "boolean",
-      "default": false
-    },
     "answer_type": {
       "type": "component",
       "repeatable": false,
@@ -29,7 +25,7 @@
       "repeatable": true,
       "component": "tests.test-question-point-option"
     },
-    "suitablity_options": {
+    "suitability_options": {
       "type": "component",
       "repeatable": true,
       "component": "tests.test-question-suitability-option"
