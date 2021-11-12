@@ -12,6 +12,7 @@ const {
   sanitizeTestOutcomes,
   getTriggerValues,
   getOutcomeValues,
+  getAverageStars,
 } = require("../utils");
 
 const POPULATE = ["roles", "categories.image"];
@@ -207,6 +208,7 @@ module.exports = {
       slug: test.slug,
       points: isTotalPoints && show_total_points ? total_points : null,
       maximum_points: isTotalPoints && show_maximum_points ? max_points : null,
+      stars: show_stars ? getAverageStars(matching_outcomes) : null,
       matching_outcomes: sanitizeTestOutcomes(matching_outcomes, show_stars),
       trigger_outcomes: sanitizeTestOutcomes(trigger_outcomes, show_stars),
       all_outcomes: show_all_possible_outcomes

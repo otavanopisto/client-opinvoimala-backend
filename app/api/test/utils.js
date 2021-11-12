@@ -121,6 +121,13 @@ module.exports = {
     return matchingOutcomes ?? [];
   },
 
+  getAverageStars(outcomes) {
+    const stars = outcomes
+      .map(({ stars }) => stars)
+      .filter((star) => !_.isNil(star));
+    return _.sum(stars) / stars.length;
+  },
+
   sanitizeTestOutcomes(outcomes, show_stars) {
     return outcomes?.map((outcome) => ({
       id: outcome.id,
