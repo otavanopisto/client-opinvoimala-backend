@@ -2,6 +2,7 @@
 
 const { sanitizeEntity } = require("strapi-utils");
 const { isPublic } = require("../../../utils/auth");
+const { sortTests } = require("../../test/utils");
 
 const POPULATE = ["tests.roles"];
 
@@ -15,10 +16,6 @@ const composeSimpleTest = (test) => ({
   published_at: test.published_at,
   updated_at: test.updated_at,
 });
-
-const sortTests = (a, b) => {
-  return b.published_at.localeCompare(a.published_at);
-};
 
 const sortCategories = (a, b) => {
   const primary = a.order - b.order;
@@ -48,7 +45,7 @@ module.exports = {
     return entities
       .map((entity) => ({
         ...sanitizeEntity(entity, { model: strapi.models["test-category"] }),
-        tests: entity.tests?.map(composeSimpleTest).sort(sortTests),
+        tests: entity.tests?.sort(sortTests).map(composeSimpleTest),
       }))
       .sort(sortCategories);
   },

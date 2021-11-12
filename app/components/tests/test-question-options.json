@@ -2,7 +2,8 @@
   "collectionName": "components_tests_test_question_options",
   "info": {
     "name": "test_question_options",
-    "icon": "list-ol"
+    "icon": "list-ol",
+    "description": ""
   },
   "options": {},
   "attributes": {

@@ -39,6 +39,9 @@
         "from_template"
       ]
     },
+    "priority": {
+      "type": "integer"
+    },
     "affects_user_profile": {
       "type": "boolean",
       "default": true

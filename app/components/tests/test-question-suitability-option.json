@@ -15,8 +15,8 @@
       "type": "string",
       "required": true
     },
-    "is_trigger_option": {
-      "type": "boolean"
+    "trigger_value": {
+      "type": "string"
     }
   }
 }
