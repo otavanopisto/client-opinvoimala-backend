@@ -14,9 +14,8 @@
     "points": {
       "type": "integer"
     },
-    "is_trigger_option": {
-      "type": "boolean",
-      "default": false
+    "trigger_value": {
+      "type": "string"
     }
   }
 }

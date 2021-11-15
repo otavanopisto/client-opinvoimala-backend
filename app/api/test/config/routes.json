@@ -47,6 +47,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "POST",
+      "path": "/tests/:slug/outcome",
+      "handler": "test.getOutcome",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }

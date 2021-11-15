@@ -1,8 +1,8 @@
 {
-  "collectionName": "components_tests_test_outcomes",
+  "collectionName": "components_tests_test_trigger_outcomes",
   "info": {
-    "name": "test_outcome",
-    "icon": "window-restore",
+    "name": "test_trigger_outcome",
+    "icon": "toggle-on",
     "description": ""
   },
   "options": {},
@@ -11,14 +11,9 @@
       "type": "string",
       "required": true
     },
-    "point_scale_min": {
-      "type": "integer"
-    },
-    "point_scale_max": {
-      "type": "integer"
-    },
-    "outcome_value": {
-      "type": "string"
+    "trigger_value": {
+      "type": "string",
+      "required": true
     },
     "content": {
       "type": "richtext"

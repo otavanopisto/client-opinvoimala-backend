@@ -22,6 +22,11 @@
       "component": "tests.test-outcome",
       "min": 1,
       "required": true
+    },
+    "trigger_outcomes": {
+      "type": "component",
+      "repeatable": true,
+      "component": "tests.test-trigger-outcome"
     }
   }
 }
