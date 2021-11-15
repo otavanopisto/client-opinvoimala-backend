@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "completed_tests",
+  "info": {
+    "name": "Completed tests"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "completed_tests"
+    },
+    "test_categories": {
+      "collection": "test-category",
+      "via": "completed_tests",
+      "dominant": true
+    },
+    "test": {
+      "model": "test",
+      "via": "completed_tests"
+    },
+    "test_snapshot": {
+      "type": "json"
+    },
+    "answers": {
+      "type": "json"
+    },
+    "outcomes": {
+      "type": "json"
+    }
+  }
+}

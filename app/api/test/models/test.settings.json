@@ -69,6 +69,10 @@
       "collection": "test-category",
       "via": "tests",
       "dominant": true
+    },
+    "completed_tests": {
+      "via": "test",
+      "collection": "completed-tests"
     }
   }
 }

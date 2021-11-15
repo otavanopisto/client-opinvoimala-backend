@@ -66,6 +66,10 @@
     },
     "terms_accepted": {
       "type": "boolean"
+    },
+    "completed_tests": {
+      "via": "user",
+      "collection": "completed-tests"
     }
   }
 }
