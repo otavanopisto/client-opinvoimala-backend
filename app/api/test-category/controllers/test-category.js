@@ -2,11 +2,11 @@
 
 const { sanitizeEntity } = require("strapi-utils");
 const { isPublic } = require("../../../utils/auth");
-const { sortTests } = require("../../test/utils");
+const { sortTests, isTestCompletedByUser } = require("../../test/utils");
 
 const POPULATE = ["tests.roles"];
 
-const composeSimpleTest = (test) => ({
+const composeSimpleTest = (user) => async (test) => ({
   id: test.id,
   name: test.name,
   slug: test.slug,
@@ -15,6 +15,7 @@ const composeSimpleTest = (test) => ({
   is_public: isPublic(test.roles),
   published_at: test.published_at,
   updated_at: test.updated_at,
+  completed_by_user: await isTestCompletedByUser(test.id, user?.id),
 });
 
 const sortCategories = (a, b) => {
@@ -32,7 +33,9 @@ const sortCategories = (a, b) => {
 
 module.exports = {
   async find(ctx) {
+    const user = ctx.state.user;
     let entities;
+
     if (ctx.query._q) {
       entities = await strapi.services["test-category"].search(ctx.query);
     } else {
@@ -42,11 +45,13 @@ module.exports = {
       );
     }
 
-    return entities
-      .map((entity) => ({
+    return await Promise.all(
+      entities.sort(sortCategories).map(async (entity) => ({
         ...sanitizeEntity(entity, { model: strapi.models["test-category"] }),
-        tests: entity.tests?.sort(sortTests).map(composeSimpleTest),
+        tests: await Promise.all(
+          entity.tests?.sort(sortTests).map(composeSimpleTest(user))
+        ),
       }))
-      .sort(sortCategories);
+    );
   },
 };
