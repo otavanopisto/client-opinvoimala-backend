@@ -14,6 +14,15 @@ module.exports = {
     return priority || published;
   },
 
+  async isTestCompletedByUser(test, user) {
+    const completedTestsService = strapi.services["completed-tests"];
+    if (user) {
+      const completedTest = await completedTestsService.findOne({ user, test });
+      if (completedTest) return true;
+    }
+    return false;
+  },
+
   // Get outcome type either from template or from test if overriden
   getOutcomeType(test, template) {
     return !test.outcome_type || test.outcome_type === "from_template"

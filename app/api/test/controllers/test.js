@@ -13,6 +13,7 @@ const {
   getTriggerValues,
   getOutcomeValues,
   getAverageStars,
+  isTestCompletedByUser,
 } = require("../utils");
 
 const POPULATE = ["roles", "categories.image"];
@@ -31,7 +32,7 @@ const getTestTemplate = async (id) => {
   return await templateService.findOne({ id }, ["options"]);
 };
 
-const composeSimpleTest = (test) => ({
+const composeSimpleTest = (user) => async (test) => ({
   id: test.id,
   name: test.name,
   slug: test.slug,
@@ -44,6 +45,7 @@ const composeSimpleTest = (test) => ({
   })),
   published_at: test.published_at,
   updated_at: test.updated_at,
+  completed_by_user: await isTestCompletedByUser(test.id, user?.id),
 });
 
 const toSimpleOption = ({ id, label }) => ({ id, label });
@@ -119,7 +121,9 @@ module.exports = {
     // Complete entity is needed only when fetching just one test with either slug or id.
     if (!ctx.query.slug && !ctx.query.id) {
       // No slug or id -> return list of all entities, but strip them first.
-      return entities.sort(sortTests).map(composeSimpleTest);
+      return await Promise.all(
+        entities.sort(sortTests).map(composeSimpleTest(user))
+      );
     }
 
     const allowedEntities = entities.filter((entity) => {
@@ -207,7 +211,7 @@ module.exports = {
     });
 
     // Compose response
-    const response = {
+    const outcomes = {
       id: test.id,
       slug: test.slug,
       points: isTotalPoints && show_total_points ? total_points : null,
@@ -220,6 +224,36 @@ module.exports = {
         : null,
     };
 
-    return response;
+    const completedTestsService = strapi.services["completed-tests"];
+
+    // Store test results to DB only for registered users!
+    if (user?.id) {
+      // 1. Find user's old tests having the same ID as current test
+      const oldTests = await completedTestsService.find({
+        user: user.id,
+        test: test.id,
+      });
+
+      // 2. Delete old (duplicate) tests from the DB before storing the new one
+      await Promise.all(
+        oldTests.forEach(
+          async ({ id }) => await completedTestsService.delete({ id })
+        )
+      );
+
+      // 3. Save completed test to the DB
+      const completedTest = await strapi.services["completed-tests"].create({
+        user: user?.id,
+        test: test.id,
+        test_categories: test.categories.map(({ id }) => id),
+        test_snapshot: test,
+        answers,
+        outcomes,
+      });
+
+      return completedTest.outcomes;
+    }
+
+    return outcomes;
   },
 };
