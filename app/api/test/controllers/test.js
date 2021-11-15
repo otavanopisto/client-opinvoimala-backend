@@ -235,11 +235,13 @@ module.exports = {
       });
 
       // 2. Delete old (duplicate) tests from the DB before storing the new one
-      await Promise.all(
-        oldTests.forEach(
-          async ({ id }) => await completedTestsService.delete({ id })
-        )
-      );
+      if (oldTests?.length) {
+        Promise.all(
+          oldTests.forEach(
+            async ({ id }) => await completedTestsService.delete({ id })
+          )
+        );
+      }
 
       // 3. Save completed test to the DB
       const completedTest = await strapi.services["completed-tests"].create({
