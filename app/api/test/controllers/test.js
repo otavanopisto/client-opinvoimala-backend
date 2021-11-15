@@ -163,19 +163,23 @@ module.exports = {
       composeQuestion(template, outcome_type, true)
     );
 
+    const roles = test.roles;
+    if (!isPublic(roles) && !isUserAllowed(user, roles)) {
+      return errorResponse(ctx, [], "forbidden");
+    }
+
     const isTotalPoints = outcome_type === "total_points";
     const isSuitabilityOfAnswers = outcome_type === "suitability_of_answers";
 
     const {
       show_all_possible_outcomes,
-      test_result_settings: {
-        show_total_points,
-        show_maximum_points,
-        show_stars,
-      },
+      test_result_settings,
       outcomes: all_outcomes,
       trigger_outcomes: all_trigger_outcomes,
     } = test.outcomes ?? {};
+
+    const { show_total_points, show_maximum_points, show_stars } =
+      test_result_settings ?? {};
 
     const max_points = getTestMaximumPoints(questions);
 
