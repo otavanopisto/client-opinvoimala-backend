@@ -10,7 +10,8 @@
     "test_result_settings": {
       "type": "component",
       "repeatable": false,
-      "component": "tests.test-result-settings"
+      "component": "tests.test-result-settings",
+      "required": true
     },
     "show_all_possible_outcomes": {
       "type": "boolean",
@@ -20,8 +21,7 @@
       "type": "component",
       "repeatable": true,
       "component": "tests.test-outcome",
-      "min": 1,
-      "required": true
+      "required": false
     },
     "trigger_outcomes": {
       "type": "component",
