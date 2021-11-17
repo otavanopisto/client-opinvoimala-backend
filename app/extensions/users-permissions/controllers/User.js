@@ -171,19 +171,23 @@ module.exports = {
       stars,
       summary_text,
       details_text,
-      categories: test_categories.map(({ id, label, order, image, tests }) => {
-        const completed_tests = user.completed_tests.filter(belongsTo(id));
+      categories: test_categories
+        .map(({ id, label, order, image, tests }) => {
+          const completed_tests = user.completed_tests.filter(belongsTo(id));
 
-        return {
-          id,
-          label,
-          order,
-          image: sanitizeImage(image),
-          stars: getAverageStars(completed_tests.map((test) => test.outcomes)),
-          completed_tests: completed_tests.length,
-          total_tests: tests.length,
-        };
-      }),
+          return {
+            id,
+            label,
+            order,
+            image: sanitizeImage(image),
+            stars: getAverageStars(
+              completed_tests.map((test) => test.outcomes)
+            ),
+            completed_tests: completed_tests.length,
+            total_tests: tests.length,
+          };
+        })
+        .sort((a, b) => a.order - b.order),
     };
   },
 };
