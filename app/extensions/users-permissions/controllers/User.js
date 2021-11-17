@@ -7,6 +7,7 @@
 
 const _ = require("lodash");
 const { sanitizeEntity } = require("strapi-utils");
+const { getAverageStars, getSummaryText } = require("../../../api/test/utils");
 
 const sanitizeUser = (user) =>
   sanitizeEntity(user, {
@@ -101,7 +102,7 @@ module.exports = {
     const userService = strapi.plugins["users-permissions"].services.user;
 
     const user = await userService.fetch({ id: ctxUser.id }, [
-      "completed_tests.test",
+      "completed_tests.test.categories",
     ]);
 
     if (!user) {
@@ -135,5 +136,53 @@ module.exports = {
     if (completed_test?.outcomes) {
       ctx.body = completed_test?.outcomes;
     }
+  },
+
+  async getTestsSummary(ctx) {
+    const ctxUser = ctx.state.user;
+    const userService = strapi.plugins["users-permissions"].services.user;
+
+    const user = await userService.fetch({ id: ctxUser.id }, [
+      "completed_tests.test.categories",
+    ]);
+
+    if (!user) {
+      return ctx.badRequest(null, [
+        { messages: [{ id: "No authorization header was found" }] },
+      ]);
+    }
+
+    // Checks if completed test belongs to a given category
+    const belongsTo =
+      (categoryId) =>
+      ({ test }) => {
+        const categoryIds = test?.categories?.map(({ id }) => id);
+        return categoryIds?.includes(categoryId);
+      };
+
+    const test_categories = await strapi.services["test-category"].find();
+    const outcomes = user.completed_tests.map((test) => test.outcomes);
+
+    const stars = getAverageStars(outcomes);
+    const { summary_text, details_text } = await getSummaryText(stars);
+
+    ctx.body = {
+      stars,
+      summary_text,
+      details_text,
+      categories: test_categories.map(({ id, label, order, image, tests }) => {
+        const completed_tests = user.completed_tests.filter(belongsTo(id));
+
+        return {
+          id,
+          label,
+          order,
+          image,
+          stars: getAverageStars(completed_tests.map((test) => test.outcomes)),
+          completed_tests: completed_tests.length,
+          total_tests: tests.length,
+        };
+      }),
+    };
   },
 };
