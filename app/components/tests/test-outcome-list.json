@@ -1,0 +1,40 @@
+{
+  "collectionName": "components_tests_test_outcome_lists",
+  "info": {
+    "name": "test_outcome_list",
+    "icon": "clipboard-list",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "test_result_settings": {
+      "type": "component",
+      "repeatable": false,
+      "component": "tests.test-result-settings"
+    },
+    "show_all_possible_outcomes": {
+      "type": "boolean",
+      "default": false
+    },
+    "outcomes": {
+      "type": "component",
+      "repeatable": true,
+      "component": "tests.test-outcome",
+      "min": 1,
+      "required": true
+    },
+    "trigger_outcomes": {
+      "type": "component",
+      "repeatable": true,
+      "component": "tests.test-trigger-outcome"
+    },
+    "link_list_title": {
+      "type": "string"
+    },
+    "link_list": {
+      "type": "component",
+      "repeatable": true,
+      "component": "elements.link"
+    }
+  }
+}

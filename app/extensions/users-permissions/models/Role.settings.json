@@ -39,9 +39,13 @@
       "configurable": false,
       "plugin": "users-permissions"
     },
-    "page": {
+    "tests": {
+      "via": "roles",
+      "collection": "test"
+    },
+    "pages": {
       "via": "users_permissions_roles",
-      "model": "page"
+      "collection": "page"
     }
   }
 }

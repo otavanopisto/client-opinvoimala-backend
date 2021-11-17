@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_tests_test_question_point_options",
+  "info": {
+    "name": "test_question_point_option",
+    "icon": "star",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "points": {
+      "type": "integer"
+    },
+    "trigger_value": {
+      "type": "string"
+    }
+  }
+}

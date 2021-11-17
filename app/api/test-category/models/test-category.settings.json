@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "test_categories",
+  "info": {
+    "name": "Test category",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "order": {
+      "type": "integer",
+      "default": 1,
+      "required": true
+    },
+    "tests": {
+      "via": "categories",
+      "collection": "test"
+    },
+    "completed_tests": {
+      "via": "test_categories",
+      "collection": "completed-tests"
+    }
+  }
+}

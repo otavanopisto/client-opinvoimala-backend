@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_tests_test_question_options",
+  "info": {
+    "name": "test_question_options",
+    "icon": "list-ol",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "answer_type": {
+      "type": "component",
+      "repeatable": false,
+      "component": "tests.answer-type",
+      "required": true
+    },
+    "point_options": {
+      "type": "component",
+      "repeatable": true,
+      "component": "tests.test-question-point-option"
+    },
+    "suitability_options": {
+      "type": "component",
+      "repeatable": true,
+      "component": "tests.test-question-suitability-option"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "test_templates",
+  "info": {
+    "name": "Test templates",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "outcome_type": {
+      "type": "enumeration",
+      "enum": [
+        "total_points",
+        "suitability_of_answers"
+      ],
+      "default": "total_points",
+      "required": true
+    },
+    "options": {
+      "type": "component",
+      "repeatable": false,
+      "component": "tests.test-question-options",
+      "required": true
+    }
+  }
+}

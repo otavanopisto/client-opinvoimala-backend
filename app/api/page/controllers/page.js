@@ -17,6 +17,13 @@ const errorResponse = (ctx, errors, type) => {
   }
 };
 
+const composeSimplePage = (page) => ({
+  id: page.id,
+  title: page.title,
+  slug: page.slug,
+  is_public: isPublic(page.users_permissions_roles),
+});
+
 /**
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
  * to customize this controller
@@ -31,6 +38,12 @@ module.exports = {
       entities = await strapi.services.page.search(ctx.query);
     } else {
       entities = await strapi.services.page.find(ctx.query, POPULATE);
+    }
+
+    // Complete entity is needed only when fetching just one page with either slug or id.
+    if (!ctx.query.slug && !ctx.query.id) {
+      // No slug or id -> return list of all entities, but strip them first.
+      return entities.map(composeSimplePage);
     }
 
     const allowedEntities = entities.filter((entity) => {

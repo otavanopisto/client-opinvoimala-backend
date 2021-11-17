@@ -1,0 +1,37 @@
+{
+  "collectionName": "components_tests_test_trigger_outcomes",
+  "info": {
+    "name": "test_trigger_outcome",
+    "icon": "toggle-on",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "trigger_value": {
+      "type": "string",
+      "required": true
+    },
+    "content": {
+      "type": "richtext"
+    },
+    "image": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "stars": {
+      "type": "integer",
+      "min": 1,
+      "max": 5
+    }
+  }
+}

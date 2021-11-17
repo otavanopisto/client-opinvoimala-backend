@@ -28,7 +28,8 @@
     "users_permissions_roles": {
       "plugin": "users-permissions",
       "collection": "role",
-      "via": "page"
+      "via": "pages",
+      "dominant": true
     },
     "link_list": {
       "type": "component",
