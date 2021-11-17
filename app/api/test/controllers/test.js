@@ -51,14 +51,14 @@ const composeSimpleTest = (user) => async (test) => ({
 const toSimpleOption = ({ id, label }) => ({ id, label });
 
 const getPointOptions = (template, question) =>
-  question.point_options.length
+  question.point_options?.length
     ? question.point_options
-    : template.options.point_options;
+    : template?.options?.point_options;
 
 const getSuitabilityOptions = (template, question) =>
-  question.suitability_options.length
+  question.suitability_options?.length
     ? question.suitability_options
-    : template.options.suitability_options;
+    : template?.options?.suitability_options;
 
 const getOptions = (template, question, outcome_type, showPoints) => {
   const options =
@@ -78,7 +78,7 @@ const composeQuestion = (template, outcome_type, showPoints) => (question) => {
     options: getOptions(template, question, outcome_type, showPoints),
     answer_type: question.answer_type?.type
       ? question.answer_type.type
-      : template.options.answer_type.type,
+      : template?.options?.answer_type?.type,
   };
 
   delete composedQuestion.point_options;
