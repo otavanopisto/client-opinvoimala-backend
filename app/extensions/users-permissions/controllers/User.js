@@ -8,6 +8,7 @@
 const _ = require("lodash");
 const { sanitizeEntity } = require("strapi-utils");
 const { getAverageStars, getSummaryText } = require("../../../api/test/utils");
+const { sanitizeImage } = require("../../../utils/sanitizers");
 
 const sanitizeUser = (user) =>
   sanitizeEntity(user, {
@@ -177,7 +178,7 @@ module.exports = {
           id,
           label,
           order,
-          image,
+          image: sanitizeImage(image),
           stars: getAverageStars(completed_tests.map((test) => test.outcomes)),
           completed_tests: completed_tests.length,
           total_tests: tests.length,
