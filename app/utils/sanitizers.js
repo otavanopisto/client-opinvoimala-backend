@@ -17,11 +17,11 @@ const sanitizeLink = (link) => {
   return {
     ...link,
     page: sanitizeLinkTarget(link.page),
+    test: sanitizeLinkTarget(link.test),
     // TODO: Just return one target/href/src/etc value based on link.type:
     // target: sanitizeLinkTarget(getLinkTarget(link))
     // page: null,
     // test: null,
-    // exercise: null,
     // internal: null,
     // external: null,
   };

@@ -1,7 +1,7 @@
 "use strict";
 
 const _ = require("lodash");
-const { sanitizeTest } = require("../../../utils/sanitizers");
+const { sanitizeTest, sanitizeLink } = require("../../../utils/sanitizers");
 const { isPublic, isUserAllowed } = require("../../../utils/auth");
 const {
   getMatchingOutcomes,
@@ -225,7 +225,7 @@ module.exports = {
         ? sanitizeTestOutcomes(all_outcomes, show_stars)
         : null,
       link_list_title,
-      link_list,
+      link_list: link_list?.map(sanitizeLink),
     };
 
     const completedTestsService = strapi.services["completed-tests"];
