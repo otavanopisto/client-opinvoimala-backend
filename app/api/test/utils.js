@@ -33,6 +33,10 @@ module.exports = {
   // Maximum points avalable from test
   getTestMaximumPoints(questions) {
     return questions.reduce((points, question) => {
+      // Answer types "text"/"none" doesn't affect on user's
+      // total points, so don't include them to max points either.
+      if (["text", "none"].includes(question.answer_type)) return points;
+
       const allPoints = question.options?.map(({ points }) => points) ?? [];
       const maxPoints = allPoints.length ? Math.max(...allPoints) : 0;
       return points + maxPoints;
