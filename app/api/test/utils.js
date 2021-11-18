@@ -138,7 +138,8 @@ module.exports = {
     const stars = outcomes
       .map(({ stars }) => stars)
       .filter((star) => !_.isNil(star));
-    return _.sum(stars) / stars.length;
+    const avg = _.sum(stars) / stars.length;
+    return Math.round(avg * 10) / 10;
   },
 
   async getSummaryText(stars) {
