@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_tests_test_summary_thresholds",
+  "info": {
+    "name": "test_summary_threshold",
+    "icon": "chart-line"
+  },
+  "options": {},
+  "attributes": {
+    "min_stars": {
+      "type": "decimal",
+      "min": 0,
+      "max": 5
+    },
+    "max_stars": {
+      "type": "decimal",
+      "max": 5,
+      "min": 0
+    },
+    "summary": {
+      "type": "string"
+    },
+    "details": {
+      "type": "string"
+    }
+  }
+}
