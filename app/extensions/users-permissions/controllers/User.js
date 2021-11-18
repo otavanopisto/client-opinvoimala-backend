@@ -161,33 +161,40 @@ module.exports = {
         return categoryIds?.includes(categoryId);
       };
 
+    const affectsProfile = (test) => !!test?.affects_user_profile;
+
     const test_categories = await strapi.services["test-category"].find();
-    const outcomes = user.completed_tests.map((test) => test.outcomes);
+    const profile_tests = user.completed_tests.filter(({ test }) =>
+      affectsProfile(test)
+    );
+    const outcomes = profile_tests.map((test) => test.outcomes);
 
     const stars = getAverageStars(outcomes);
     const { summary_text, details_text } = await getSummaryText(stars);
+
+    const categories = test_categories
+      .filter(({ show_in_profile }) => !!show_in_profile)
+      .map(({ id, label, order, image, tests }) => {
+        const completed_tests = profile_tests.filter(belongsTo(id));
+
+        return {
+          id,
+          label,
+          order,
+          image: sanitizeImage(image),
+          stars: getAverageStars(completed_tests.map((test) => test.outcomes)),
+          completed_tests: completed_tests.length,
+          total_tests: tests.filter(affectsProfile).length,
+        };
+      })
+      .sort((a, b) => a.order - b.order);
 
     ctx.body = {
       stars,
       summary_text,
       details_text,
-      categories: test_categories
-        .map(({ id, label, order, image, tests }) => {
-          const completed_tests = user.completed_tests.filter(belongsTo(id));
-
-          return {
-            id,
-            label,
-            order,
-            image: sanitizeImage(image),
-            stars: getAverageStars(
-              completed_tests.map((test) => test.outcomes)
-            ),
-            completed_tests: completed_tests.length,
-            total_tests: tests.length,
-          };
-        })
-        .sort((a, b) => a.order - b.order),
+      completed_tests: _.sum(categories.map((c) => c.completed_tests)),
+      categories,
     };
   },
 };

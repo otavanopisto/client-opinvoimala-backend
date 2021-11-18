@@ -17,8 +17,8 @@
       "via": "completed_tests"
     },
     "test_categories": {
-      "collection": "test-category",
       "via": "completed_tests",
+      "collection": "test-category",
       "dominant": true
     },
     "test": {

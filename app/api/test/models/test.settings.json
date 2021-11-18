@@ -66,8 +66,8 @@
       "component": "tests.test-outcome-list"
     },
     "categories": {
-      "collection": "test-category",
       "via": "tests",
+      "collection": "test-category",
       "dominant": true
     },
     "completed_tests": {
