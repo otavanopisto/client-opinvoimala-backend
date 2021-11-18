@@ -145,14 +145,16 @@ module.exports = {
   async getSummaryText(stars) {
     const tests_summary = await strapi.services["tests-summary"].find();
 
-    for (const threshold of tests_summary.thresholds) {
-      const aboveMin = stars >= threshold.min_stars;
-      const belowMax = stars <= threshold.max_stars;
-      if (aboveMin && belowMax) {
-        return {
-          summary_text: threshold.summary,
-          details_text: threshold.details,
-        };
+    if (tests_summary?.thresholds) {
+      for (const threshold of tests_summary.thresholds) {
+        const aboveMin = stars >= threshold.min_stars;
+        const belowMax = stars <= threshold.max_stars;
+        if (aboveMin && belowMax) {
+          return {
+            summary_text: threshold.summary,
+            details_text: threshold.details,
+          };
+        }
       }
     }
     return {
