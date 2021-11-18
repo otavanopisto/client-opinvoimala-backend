@@ -1,0 +1,20 @@
+{
+  "kind": "singleType",
+  "collectionName": "tests_summaries",
+  "info": {
+    "name": "Tests summary"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "thresholds": {
+      "type": "component",
+      "repeatable": true,
+      "component": "tests.test-summary-threshold"
+    }
+  }
+}

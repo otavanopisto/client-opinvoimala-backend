@@ -138,7 +138,27 @@ module.exports = {
     const stars = outcomes
       .map(({ stars }) => stars)
       .filter((star) => !_.isNil(star));
-    return _.sum(stars) / stars.length;
+    const avg = _.sum(stars) / stars.length;
+    return Math.round(avg * 10) / 10;
+  },
+
+  async getSummaryText(stars) {
+    const tests_summary = await strapi.services["tests-summary"].find();
+
+    for (const threshold of tests_summary.thresholds) {
+      const aboveMin = stars >= threshold.min_stars;
+      const belowMax = stars <= threshold.max_stars;
+      if (aboveMin && belowMax) {
+        return {
+          summary_text: threshold.summary,
+          details_text: threshold.details,
+        };
+      }
+    }
+    return {
+      summary_text: "",
+      details_text: "",
+    };
   },
 
   sanitizeTestOutcomes(outcomes, show_stars) {

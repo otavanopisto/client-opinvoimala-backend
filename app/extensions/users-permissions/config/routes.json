@@ -59,6 +59,21 @@
           "actionType": "findTestOutcome"
         }
       }
+    },
+    {
+      "method": "GET",
+      "path": "/users/me/tests/summary",
+      "handler": "User.getTestsSummary",
+      "config": {
+        "policies": [],
+        "prefix": "",
+        "description": "Retrieves summary of tests user has completed",
+        "tag": {
+          "plugin": "users-permissions",
+          "name": "User",
+          "actionType": "getTestsSummary"
+        }
+      }
     }
   ]
 }

@@ -2,6 +2,16 @@ const _ = require("lodash");
 const { sanitizeEntity } = require("strapi-utils");
 const { isPublic } = require("./auth");
 
+const sanitizeImage = (image) => {
+  if (!image || _.isEmpty(image)) return null;
+  return {
+    id: image.id,
+    url: image.url,
+    alternativeText: image.alternativeText,
+    caption: image.caption,
+  };
+};
+
 const sanitizeLinkTarget = (target) => {
   if (!target || _.isEmpty(target)) return null;
   return {
@@ -96,6 +106,7 @@ const sanitizeTest = (test) => {
 };
 
 module.exports = {
+  sanitizeImage,
   sanitizeLinkTarget,
   sanitizeLink,
   sanitizeCard,
