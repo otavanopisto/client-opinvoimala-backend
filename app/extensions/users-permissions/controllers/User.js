@@ -161,7 +161,10 @@ module.exports = {
         return categoryIds?.includes(categoryId);
       };
 
-    const affectsProfile = (test) => !!test?.affects_user_profile;
+    const affectsProfile = (test) => {
+      // Test has to exist and also be published in order to affect user's profile
+      return !!test?.affects_user_profile && !!test?.published_at;
+    };
 
     const test_categories = await strapi.services["test-category"].find();
     const profile_tests = user.completed_tests.filter(({ test }) =>
