@@ -53,6 +53,11 @@
       "plugin": "upload",
       "required": false,
       "pluginOptions": {}
+    },
+    "scripts": {
+      "type": "component",
+      "repeatable": false,
+      "component": "elements.scripts"
     }
   }
 }

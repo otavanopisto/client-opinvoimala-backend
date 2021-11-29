@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_elements_scripts",
+  "info": {
+    "name": "scripts",
+    "icon": "code",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "cookiebot_domain_group_id": {
+      "type": "string"
+    }
+  }
+}
