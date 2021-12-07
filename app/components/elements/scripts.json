@@ -9,6 +9,9 @@
   "attributes": {
     "cookiebot_domain_group_id": {
       "type": "string"
+    },
+    "google_analytics_measurement_id": {
+      "type": "string"
     }
   }
 }
