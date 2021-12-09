@@ -12,6 +12,9 @@
     },
     "google_analytics_measurement_id": {
       "type": "string"
+    },
+    "giosg_company_id": {
+      "type": "string"
     }
   }
 }
