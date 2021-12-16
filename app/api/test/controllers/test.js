@@ -160,7 +160,11 @@ module.exports = {
     const user = ctx.state.user;
     const { answers } = ctx.request.body;
 
-    const test = await strapi.services.test.findOne({ slug }, POPULATE);
+    const test = await strapi.services.test.findOne({ slug }, [
+      ...POPULATE,
+      "outcomes.link_list.test.roles",
+      "outcomes.link_list.page.users_permissions_roles",
+    ]);
     const template = await getTestTemplate(test.template);
     const outcome_type = getOutcomeType(test, template);
     const questions = test.questions.map(

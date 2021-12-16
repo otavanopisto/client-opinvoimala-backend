@@ -6,6 +6,7 @@ const { isPublic, isUserAllowed } = require("../../../utils/auth");
 const POPULATE = [
   "users_permissions_roles",
   "link_list.links.page.users_permissions_roles",
+  "link_list.links.test.roles",
 ];
 
 const errorResponse = (ctx, errors, type) => {
