@@ -12,13 +12,13 @@ const sanitizeImage = (image) => {
   };
 };
 
-const sanitizeLinkTarget = (target) => {
+const sanitizeLinkTarget = (target, roles = []) => {
   if (!target || _.isEmpty(target)) return null;
   return {
     id: target.id,
     title: target.title,
     slug: target.slug,
-    is_public: isPublic(target.users_permissions_roles),
+    is_public: isPublic(roles),
   };
 };
 
@@ -26,8 +26,8 @@ const sanitizeLink = (link) => {
   if (!link || _.isEmpty(link)) return null;
   return {
     ...link,
-    page: sanitizeLinkTarget(link.page),
-    test: sanitizeLinkTarget(link.test),
+    page: sanitizeLinkTarget(link.page, link.page?.users_permissions_roles),
+    test: sanitizeLinkTarget(link.test, link.test?.roles),
     // TODO: Just return one target/href/src/etc value based on link.type:
     // target: sanitizeLinkTarget(getLinkTarget(link))
     // page: null,
