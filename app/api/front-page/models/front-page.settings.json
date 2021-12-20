@@ -16,7 +16,7 @@
       "type": "string"
     },
     "lead": {
-      "type": "string"
+      "type": "text"
     },
     "image": {
       "model": "file",

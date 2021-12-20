@@ -20,7 +20,7 @@
       "unique": false
     },
     "lead": {
-      "type": "string"
+      "type": "text"
     },
     "content": {
       "type": "richtext"
