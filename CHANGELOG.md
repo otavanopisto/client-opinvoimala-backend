@@ -10,12 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added changelog
+- OPI-71: Card component to content page
 
 ### Changed
 
 - Content page & Front page lead from string to text
 
-## [0.2.2-production] - 2021-12-16
+## [0.2.2] - 2021-12-16
 
 ### Added
 
@@ -29,14 +30,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tests
 - Well being profile
 
-## [0.2.0-production] - 2021-11-29
+## [0.2.0] - 2021-11-29
 
 ### Added
 
 - Tests
 - Well being profile
 
-## [0.1.0-production] - 2021-10-27
+## [0.1.0] - 2021-10-27
 
 ### Added
 

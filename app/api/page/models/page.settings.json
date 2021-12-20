@@ -31,6 +31,11 @@
       "via": "pages",
       "dominant": true
     },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "elements.card"
+    },
     "link_list": {
       "type": "component",
       "repeatable": false,
