@@ -58,6 +58,11 @@
       "type": "component",
       "repeatable": false,
       "component": "elements.scripts"
+    },
+    "maintenance": {
+      "type": "component",
+      "repeatable": false,
+      "component": "elements.maintenance"
     }
   }
 }
