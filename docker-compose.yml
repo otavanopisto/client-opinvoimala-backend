@@ -21,6 +21,11 @@ services:
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_SERVICE_ENDPOINT: ${AWS_SERVICE_ENDPOINT}
 
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      SMTP_FROM: ${SMTP_FROM}
+
     volumes:
       - ./app:/srv/app
     ports:

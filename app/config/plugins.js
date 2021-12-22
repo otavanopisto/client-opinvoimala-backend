@@ -15,13 +15,13 @@ module.exports = ({ env }) => ({
   email: {
     provider: "amazon-ses",
     providerOptions: {
-      key: env("AWS_ACCESS_KEY_ID"),
-      secret: env("AWS_SECRET_ACCESS_KEY"),
-      amazon: env("AWS_SERVICE_ENDPOINT", "https://email-smtp.eu-west-1.amazonaws.com"),
+      key: env("SMTP_USER"),
+      secret: env("SMTP_PASSWORD"),
+      amazon: env("SMTP_HOST", "https://email-smtp.eu-west-1.amazonaws.com"),
     },
     settings: {
-      defaultFrom: "noreply@opinvoimala.fi",
-      defaultReplyTo: "noreply@opinvoimala.fi",
+      defaultFrom: env("SMTP_FROM", "no-reply@opinvoimala.fi"),
+      defaultReplyTo: env("SMTP_FROM", "no-reply@opinvoimala.fi"),
     },
   },
 });
