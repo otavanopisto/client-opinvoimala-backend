@@ -7,6 +7,7 @@
 
 const crypto = require("crypto");
 const _ = require("lodash");
+const { createEmailTransporter } = require("../../../utils/email");
 const { sanitizeEntity } = require("strapi-utils");
 
 const emailRegExp =
@@ -367,8 +368,6 @@ module.exports = {
     const usersPermissionsService =
       strapi.plugins["users-permissions"].services.userspermissions;
 
-    const emailService = strapi.plugins["email"].services.email;
-
     const email = ctx.request.body.email?.toLowerCase();
 
     // Check if the provided email is valid or not.
@@ -456,26 +455,25 @@ module.exports = {
 
     try {
       // Send an email to the user.
-      await emailService.send({
+      const result = await createEmailTransporter().sendMail({
         to: email,
         from:
           settings.from.email || settings.from.name
             ? `${settings.from.name} <${settings.from.email}>`
             : undefined,
-        replyTo: settings.response_email,
         subject: settings.object,
         text: settings.message,
         html: settings.message,
       });
+
+      // Update the user.
+      await strapi
+        .query("user", "users-permissions")
+        .update({ id: user.id }, { resetPasswordToken });
+
+      ctx.send({ ok: true });
     } catch (err) {
       return ctx.badRequest(null, err);
     }
-
-    // Update the user.
-    await strapi
-      .query("user", "users-permissions")
-      .update({ id: user.id }, { resetPasswordToken });
-
-    ctx.send({ ok: true });
   },
 };

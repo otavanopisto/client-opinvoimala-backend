@@ -1,4 +1,5 @@
 const { DateTime } = require("luxon");
+const { getEmailFrom } = require("../../utils/email");
 
 const formatDate = (isoDate) =>
   DateTime.fromISO(isoDate)
@@ -14,6 +15,7 @@ module.exports = {
       const title = "Sinulle on tehty uusi ajanvaraus:";
 
       return {
+        from: getEmailFrom(),
         to: appointment.appointment_specialist.email,
         subject: `Vahvistus varauksesta ${time}`,
         text: `
@@ -44,6 +46,7 @@ module.exports = {
         "Luomasi ajanvaraus on opiskelijan toimesta peruttu ja asetettu taas vapaasti varattavaksi.";
 
       return {
+        from: getEmailFrom(),
         to: appointment.appointment_specialist.email,
         subject: `PERUUTETTU: Varaus ${time}`,
         text: `
@@ -70,6 +73,7 @@ module.exports = {
       const title = `Vahvistus varauksesta ${time}:`;
 
       return {
+        from: getEmailFrom(),
         to: userEmail,
         subject: `Vahvistus varauksesta ${time}`,
         text: `

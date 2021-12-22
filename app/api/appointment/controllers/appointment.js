@@ -6,7 +6,7 @@ const {
   notifySpecialist,
   notifyUser,
 } = require("../../../emails/appointment/appointment-emails");
-
+const { createEmailTransporter } = require("../../../utils/email");
 /**
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
  * to customize this controller
@@ -132,7 +132,6 @@ module.exports = {
 
     const appointmentService = strapi.services.appointment;
     const userService = strapi.plugins["users-permissions"].services.user;
-    const emailService = strapi.plugins["email"].services.email;
 
     const user = await userService.fetch({ id: ctxUser.id }, ["appointments"]);
     const appointment = await appointmentService.findOne({ id }, [
@@ -170,11 +169,13 @@ module.exports = {
           email
         );
 
+        const transporter = createEmailTransporter();
+
         // Send confirmation to the user
-        await emailService.send(userEmail);
+        await transporter.sendMail(userEmail);
 
         // Send confirmation to specialist
-        await emailService.send(specialistEmail);
+        await transporter.sendMail(specialistEmail);
       } catch (err) {
         return ctx.send({
           data: sanitizedEntity,
@@ -196,7 +197,6 @@ module.exports = {
 
     const appointmentService = strapi.services.appointment;
     const userService = strapi.plugins["users-permissions"].services.user;
-    const emailService = strapi.plugins["email"].services.email;
 
     const user = await userService.fetch({ id: ctxUser.id }, ["appointments"]);
     const appointment = await appointmentService.findOne({ id }, [
@@ -223,7 +223,7 @@ module.exports = {
     if (entity.user === null && entity.status === "available") {
       try {
         const email = notifySpecialist.appointmentCancelledEmail(appointment);
-        await emailService.send(email);
+        await createEmailTransporter().sendMail(email);
       } catch (err) {
         return ctx.send({
           ok: true,
