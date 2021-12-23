@@ -1,6 +1,7 @@
 module.exports = {
   ////// CONFIGURATION TEMPLATE: uncomment desired lines to override default config.
   ////// While all lines are commented, config will not change anything.
+  ////// Run "yarn build" after chages.
   toolbar: {
     items: [
       "undo",
@@ -11,7 +12,7 @@ module.exports = {
       "heading",
       //     "fontFamily",
       //     "fontSize",
-      //     "fontColor",
+      "fontColor",
       "|",
       "bold",
       "italic",
@@ -43,41 +44,37 @@ module.exports = {
     // shouldNotGroupWhenFull: true
   },
   image: {
-    // styles: [
-    //     "alignLeft",
-    //     "alignCenter",
-    //     "alignRight",
-    // ],
-    // resizeOptions: [
-    //     {
-    //         name: "resizeImage:original",
-    //         value: null,
-    //         icon: "original"
-    //     },
-    //     {
-    //         name: "resizeImage:50",
-    //         value: "50",
-    //         icon: "medium"
-    //     },
-    //     {
-    //         name: "resizeImage:75",
-    //         value: "75",
-    //         icon: "large"
-    //     }
-    // ],
+    styles: ["alignLeft", "alignCenter", "alignRight"],
+    resizeOptions: [
+      {
+        name: "resizeImage:original",
+        value: null,
+        icon: "original",
+      },
+      {
+        name: "resizeImage:50",
+        value: "50",
+        icon: "medium",
+      },
+      {
+        name: "resizeImage:75",
+        value: "75",
+        icon: "large",
+      },
+    ],
     toolbar: [
-        // "imageStyle:alignLeft",
-        // "imageStyle:alignCenter",
-        // "imageStyle:alignRight",
-        // "|",
-        "imageTextAlternative",
-        // "|",
-        // "resizeImage:50",
-        // "resizeImage:75",
-        // "resizeImage:original",
-        "|",
-        "linkImage",
-    ]
+      "imageStyle:alignLeft",
+      "imageStyle:alignCenter",
+      "imageStyle:alignRight",
+      "|",
+      "imageTextAlternative",
+      "|",
+      "resizeImage:50",
+      "resizeImage:75",
+      "resizeImage:original",
+      "|",
+      "linkImage",
+    ],
   },
   // table: {
   // contentToolbar: [
@@ -98,7 +95,7 @@ module.exports = {
     // ]
   },
   htmlEmbed: {
-    // showPreviews: true,
+    showPreviews: true,
   },
   // fontFamily: {
   // options: [

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- More options to format images in wysiwyg editor
+
 ### Changed
 
 - Include info if a test affects to user's profile or not
