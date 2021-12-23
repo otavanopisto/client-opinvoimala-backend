@@ -39,6 +39,7 @@ const composeSimpleTest = (user) => async (test) => ({
   type: test.type,
   description: test.description,
   is_public: isPublic(test.roles),
+  affects_user_profile: test.affects_user_profile,
   categories: test.categories.map((category) => ({
     id: category.id,
     label: category.label,
@@ -97,7 +98,6 @@ const composeTest = async (test) => {
   delete test.template;
   delete test.outcomes;
   delete test.outcome_type;
-  delete test.affects_user_profile;
 
   return { ...test, questions };
 };

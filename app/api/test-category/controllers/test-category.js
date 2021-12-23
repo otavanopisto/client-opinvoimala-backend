@@ -13,6 +13,7 @@ const composeSimpleTest = (user) => async (test) => ({
   type: test.type,
   description: test.description,
   is_public: isPublic(test.roles),
+  affects_user_profile: test.affects_user_profile,
   priority: test.priority,
   published_at: test.published_at,
   updated_at: test.updated_at,
