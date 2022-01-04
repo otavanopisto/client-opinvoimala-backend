@@ -23,19 +23,21 @@ http://localhost:1337
 Create & push new tag `*-stage` (e.g. yyyymmdd-hhmm-stage)
 
 ```sh
-git checkout stage
-# Make sure that all changes are merged/committed into stage
 git tag [tag]
-git push origin stage --tags
+git push origin [branch] --tags
 ```
 
 ### Upgrade production
 
-Create & push new tag `*-production` (e.g. 0.0.1-production)
+Please deploy production versions always from the master branch!
+
+1. Update CHANGELOG.md & bump version number in package.json and commit changes
+2. Create & push new tag `*-production` (e.g. 0.0.1-production)
 
 ```sh
 git checkout master
-# Make sure that all changes are merged/committed into master
+# Make sure all changes are merged into master and
+# Update changelog & package.json (and commit changes)
 git tag [tag]
 git push origin master --tags
 ```
