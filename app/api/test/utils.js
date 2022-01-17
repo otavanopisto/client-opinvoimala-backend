@@ -142,24 +142,30 @@ module.exports = {
     return Math.round(avg * 10) / 10;
   },
 
-  async getSummaryText(stars) {
+  async getSummaryDetails(stars) {
     const tests_summary = await strapi.services["tests-summary"].find();
 
-    if (tests_summary?.thresholds) {
-      for (const threshold of tests_summary.thresholds) {
+    const { thresholds, show_summary, default_summary, default_details } =
+      tests_summary ?? {};
+
+    if (show_summary && thresholds) {
+      for (const threshold of thresholds) {
         const aboveMin = stars >= threshold.min_stars;
         const belowMax = stars <= threshold.max_stars;
         if (aboveMin && belowMax) {
           return {
+            show_summary,
             summary_text: threshold.summary,
             details_text: threshold.details,
           };
         }
       }
     }
+
     return {
-      summary_text: "",
-      details_text: "",
+      show_summary,
+      summary_text: default_summary ?? "",
+      details_text: default_details ?? "",
     };
   },
 
