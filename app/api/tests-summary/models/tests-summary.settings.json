@@ -2,7 +2,8 @@
   "kind": "singleType",
   "collectionName": "tests_summaries",
   "info": {
-    "name": "Tests summary"
+    "name": "Tests summary",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -15,6 +16,16 @@
       "type": "component",
       "repeatable": true,
       "component": "tests.test-summary-threshold"
+    },
+    "default_summary": {
+      "type": "string"
+    },
+    "default_details": {
+      "type": "text"
+    },
+    "show_summary": {
+      "type": "boolean",
+      "default": true
     }
   }
 }

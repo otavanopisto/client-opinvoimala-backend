@@ -7,7 +7,10 @@
 
 const _ = require("lodash");
 const { sanitizeEntity } = require("strapi-utils");
-const { getAverageStars, getSummaryText } = require("../../../api/test/utils");
+const {
+  getAverageStars,
+  getSummaryDetails,
+} = require("../../../api/test/utils");
 const { sanitizeImage } = require("../../../utils/sanitizers");
 
 const sanitizeUser = (user) =>
@@ -173,7 +176,8 @@ module.exports = {
     const outcomes = profile_tests.map((test) => test.outcomes);
 
     const stars = getAverageStars(outcomes);
-    const { summary_text, details_text } = await getSummaryText(stars);
+    const { summary_text, details_text, show_summary } =
+      await getSummaryDetails(stars);
 
     const categories = test_categories
       .filter(({ show_in_profile }) => !!show_in_profile)
@@ -186,7 +190,9 @@ module.exports = {
           order,
           image: sanitizeImage(image),
           test_category_link,
-          stars: getAverageStars(completed_tests.map((test) => test.outcomes)),
+          stars: show_summary
+            ? getAverageStars(completed_tests.map((test) => test.outcomes))
+            : null,
           completed_tests: completed_tests.length,
           total_tests: tests.filter(affectsProfile).length,
         };
@@ -194,7 +200,7 @@ module.exports = {
       .sort((a, b) => a.order - b.order);
 
     ctx.body = {
-      stars,
+      stars: show_summary ? stars : null,
       summary_text,
       details_text,
       completed_tests: _.sum(categories.map((c) => c.completed_tests)),

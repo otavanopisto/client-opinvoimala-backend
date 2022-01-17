@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- OPI-80: Test categories can have custom links to point category page
+- OPI-80: Toggle test summary on/off in well-being-profile
+- OPI-80: Default texts for test summary
+
 ## [0.2.9] - 2022-01-04
 
 ### Added
