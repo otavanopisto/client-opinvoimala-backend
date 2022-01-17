@@ -40,6 +40,11 @@
     "completed_tests": {
       "via": "test_categories",
       "collection": "completed-tests"
+    },
+    "test_category_link": {
+      "type": "component",
+      "repeatable": false,
+      "component": "elements.link"
     }
   }
 }
