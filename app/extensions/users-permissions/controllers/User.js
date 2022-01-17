@@ -177,7 +177,7 @@ module.exports = {
 
     const categories = test_categories
       .filter(({ show_in_profile }) => !!show_in_profile)
-      .map(({ id, label, order, image, tests }) => {
+      .map(({ id, label, order, image, test_category_link, tests }) => {
         const completed_tests = profile_tests.filter(belongsTo(id));
 
         return {
@@ -185,6 +185,7 @@ module.exports = {
           label,
           order,
           image: sanitizeImage(image),
+          test_category_link,
           stars: getAverageStars(completed_tests.map((test) => test.outcomes)),
           completed_tests: completed_tests.length,
           total_tests: tests.filter(affectsProfile).length,
