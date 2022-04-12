@@ -59,6 +59,49 @@ module.exports = {
     return ctx.badRequest("User.change_password.new_password.no_match");
   },
 
+  async deleteAccount(ctx) {
+    const userId = ctx.state.user.id;
+
+    const userService = strapi.plugins["users-permissions"].services.user;
+    const completedTestsService = strapi.services["completed-tests"];
+    const appointmentService = strapi.services.appointment;
+
+    // Remove completed tests related to the user
+    const userTests = await completedTestsService.find({ user: userId });
+    if (userTests?.length) {
+      Promise.all(
+        userTests.map(async (test) => {
+          await completedTestsService.delete({ id: test.id });
+        })
+      );
+    }
+
+    // Handle existing appointments related to user
+    const userAppointments = await appointmentService.find({ user: userId });
+    if (userAppointments?.length) {
+      Promise.all(
+        userAppointments.map(async (appointment) => {
+          await appointmentService.update(
+            { id: appointment.id },
+            { status: "available", user: null }
+          );
+          // Nice to have: Send an email to the specialist to tell his/her appointment was "cancelled"
+        })
+      );
+    }
+
+    // Finally, delete user
+    const data = await userService.remove({ id: userId });
+
+    if (data?.id === userId) {
+      return {
+        message: "Account deleted successfully",
+      };
+    }
+
+    return ctx.badRequest("User.delete_account.fail");
+  },
+
   async getSpecialist(id) {
     const specialistService = strapi.services["appointment-specialist"];
 
