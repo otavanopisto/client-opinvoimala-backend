@@ -71,7 +71,7 @@ module.exports = {
     if (userTests?.length) {
       Promise.all(
         userTests.map(async (test) => {
-          await completedTestsService.delete({ id: test.id });
+          return await completedTestsService.delete({ id: test.id });
         })
       );
     }
@@ -81,7 +81,7 @@ module.exports = {
     if (userAppointments?.length) {
       Promise.all(
         userAppointments.map(async (appointment) => {
-          await appointmentService.update(
+          return await appointmentService.update(
             { id: appointment.id },
             { status: "available", user: null }
           );
