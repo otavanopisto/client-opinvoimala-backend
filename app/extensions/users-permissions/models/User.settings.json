@@ -70,6 +70,10 @@
     "completed_tests": {
       "via": "user",
       "collection": "completed-tests"
+    },
+    "goals": {
+      "via": "user",
+      "collection": "user-goals"
     }
   }
 }
