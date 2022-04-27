@@ -56,7 +56,9 @@ module.exports = {
       return errorResponse(ctx, [], "forbidden");
     }
 
-    return allowedEntities.map((entity) => sanitizePage(entity));
+    return Promise.all(
+      allowedEntities.map(async (entity) => await sanitizePage(entity))
+    );
   },
 
   async findOne(ctx) {

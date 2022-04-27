@@ -1,6 +1,7 @@
 const _ = require("lodash");
 const { sanitizeEntity } = require("strapi-utils");
 const { isPublic } = require("./auth");
+const { generateLinkList } = require("./links");
 
 const sanitizeImage = (image) => {
   if (!image || _.isEmpty(image)) return null;
@@ -39,6 +40,8 @@ const sanitizeLink = (link) => {
 
 const sanitizeLinkList = (linkList) => {
   if (!linkList || _.isEmpty(linkList)) return null;
+  delete linkList.page_tags;
+  delete linkList.test_tags;
   return {
     ...linkList,
     links: linkList.links.map(sanitizeLink),
@@ -87,13 +90,28 @@ const sanitizeNavigation = (navigation) => {
   return sanitizeEntity(_navigation, { model: strapi.models.navigation });
 };
 
-const sanitizePage = (page) => {
+const sanitizePage = async (page) => {
   if (!page || _.isEmpty(page)) return null;
 
   delete page.users_permissions_roles;
+
+  const generated_link_list = await generateLinkList({
+    entityId: page.id,
+    pageTags: page.link_list?.page_tags,
+    testTags: page.link_list?.test_tags,
+  });
+
+  const combined_link_list = [
+    ...(page.link_list?.links ?? []),
+    ...generated_link_list,
+  ];
+
   const _page = {
     ...page,
-    link_list: sanitizeLinkList(page.link_list),
+    link_list: sanitizeLinkList({
+      ...page.link_list,
+      links: combined_link_list,
+    }),
   };
   return sanitizeEntity(_page, { model: strapi.models.page });
 };
@@ -103,6 +121,29 @@ const sanitizeTest = (test) => {
 
   delete test.roles;
   return sanitizeEntity(test, { model: strapi.models.test });
+};
+
+const sanitizeOutcomes = async (testOutcomes) => {
+  if (!testOutcomes || _.isEmpty(testOutcomes)) return null;
+
+  const { link_list_page_tags, link_list_test_tags, ...outcomes } =
+    testOutcomes;
+
+  const generated_link_list = await generateLinkList({
+    entityId: outcomes.id,
+    pageTags: link_list_page_tags,
+    testTags: link_list_test_tags,
+  });
+
+  const combined_link_list = [
+    ...(outcomes.link_list ?? []),
+    ...generated_link_list,
+  ];
+
+  return {
+    ...outcomes,
+    link_list: combined_link_list.map(sanitizeLink),
+  };
 };
 
 module.exports = {
@@ -115,4 +156,5 @@ module.exports = {
   sanitizeNavigation,
   sanitizePage,
   sanitizeTest,
+  sanitizeOutcomes,
 };

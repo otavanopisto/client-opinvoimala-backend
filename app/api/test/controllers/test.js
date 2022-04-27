@@ -1,7 +1,11 @@
 "use strict";
 
 const _ = require("lodash");
-const { sanitizeTest, sanitizeLink } = require("../../../utils/sanitizers");
+const {
+  sanitizeTest,
+  sanitizeLink,
+  sanitizeOutcomes,
+} = require("../../../utils/sanitizers");
 const { isPublic, isUserAllowed } = require("../../../utils/auth");
 const {
   getMatchingOutcomes,
@@ -186,6 +190,8 @@ module.exports = {
       trigger_outcomes: all_trigger_outcomes,
       link_list_title,
       link_list,
+      link_list_page_tags,
+      link_list_test_tags,
     } = test.outcomes ?? {};
 
     const { show_total_points, show_maximum_points, show_stars } =
@@ -230,6 +236,8 @@ module.exports = {
         : null,
       link_list_title,
       link_list: link_list?.map(sanitizeLink),
+      link_list_page_tags,
+      link_list_test_tags,
     };
 
     const completedTestsService = strapi.services["completed-tests"];
@@ -259,7 +267,7 @@ module.exports = {
         outcomes,
       });
 
-      return completedTest.outcomes;
+      return await sanitizeOutcomes(completedTest.outcomes);
     }
 
     return outcomes;

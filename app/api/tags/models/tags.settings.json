@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tags",
+  "info": {
+    "name": "Tags"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "pages": {
+      "collection": "page",
+      "via": "tags",
+      "dominant": true
+    },
+    "tests": {
+      "collection": "test",
+      "via": "tags",
+      "dominant": true
+    }
+  }
+}

@@ -11,7 +11,10 @@ const {
   getAverageStars,
   getSummaryDetails,
 } = require("../../../api/test/utils");
-const { sanitizeImage } = require("../../../utils/sanitizers");
+const {
+  sanitizeImage,
+  sanitizeOutcomes,
+} = require("../../../utils/sanitizers");
 
 const sanitizeUser = (user) =>
   sanitizeEntity(user, {
@@ -181,7 +184,7 @@ module.exports = {
     );
 
     if (completed_test?.outcomes) {
-      ctx.body = completed_test?.outcomes;
+      ctx.body = await sanitizeOutcomes(completed_test.outcomes);
     }
   },
 

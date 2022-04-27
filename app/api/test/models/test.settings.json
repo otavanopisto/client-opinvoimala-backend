@@ -73,6 +73,10 @@
     "completed_tests": {
       "via": "test",
       "collection": "completed-tests"
+    },
+    "tags": {
+      "via": "tests",
+      "collection": "tags"
     }
   }
 }

@@ -40,6 +40,10 @@
       "type": "component",
       "repeatable": false,
       "component": "elements.link-list"
+    },
+    "tags": {
+      "via": "pages",
+      "collection": "tags"
     }
   }
 }
