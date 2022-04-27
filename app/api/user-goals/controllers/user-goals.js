@@ -15,15 +15,20 @@ const sanitizeGoal = (entity) => {
   return sanitizeEntity(entity, { model: strapi.models["user-goals"] });
 };
 
-const sortGoals = (a, b) => {
-  const primarySort = a.done && !b.done ? 1 : b.done && !a.done ? -1 : 0;
+const sortGoals =
+  ({ groupByDone = false } = {}) =>
+  (a, b) => {
+    let primarySort = 0;
+    if (groupByDone) {
+      primarySort = a.done && !b.done ? 1 : b.done && !a.done ? -1 : 0;
+    }
 
-  const date1 = DateTime.fromJSDate(a.created_at);
-  const date2 = DateTime.fromJSDate(b.created_at);
-  const secondarySort = date1.diff(date2).toObject().milliseconds * -1;
+    const date1 = DateTime.fromJSDate(a.created_at);
+    const date2 = DateTime.fromJSDate(b.created_at);
+    const secondarySort = date1.diff(date2).toObject().milliseconds * -1;
 
-  return primarySort || secondarySort;
-};
+    return primarySort || secondarySort;
+  };
 
 const goalsMetaData = async () => {
   return await strapi.services["goals"].find();
@@ -34,6 +39,7 @@ module.exports = {
     const user = ctx.state.user.id;
 
     const userGoals = await strapi.services["user-goals"].find({ user });
+    const doneGoals = userGoals.filter(({ done }) => done);
 
     const { title, text, image, max_goals } = await goalsMetaData();
 
@@ -41,10 +47,12 @@ module.exports = {
       title: title,
       info_text: text,
       image: sanitizeImage(image),
+      done_total: doneGoals.length ?? 0,
       goals: userGoals
-        .sort(sortGoals)
+        .sort(sortGoals({ groupByDone: true }))
         .slice(0, max_goals ?? DEFAULT_VISIBLE_GOALS)
-        .map(sanitizeGoal),
+        .map(sanitizeGoal)
+        .sort(sortGoals()),
     };
   },
 
