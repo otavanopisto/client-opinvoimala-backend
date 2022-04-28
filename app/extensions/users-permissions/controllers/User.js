@@ -15,6 +15,7 @@ const {
   sanitizeImage,
   sanitizeOutcomes,
 } = require("../../../utils/sanitizers");
+const { shuffleArray } = require("../../../utils/array");
 
 const sanitizeUser = (user) =>
   sanitizeEntity(user, {
@@ -26,7 +27,119 @@ const sanitizeAppointment = (appointment) =>
     model: strapi.query("appointment").model,
   });
 
+const ME_POPULATE = ["role", "tags"];
+
 module.exports = {
+  /**
+   * Retrieve authenticated user.
+   * @return {Object|Array}
+   */
+  async me(ctx) {
+    const id = ctx.state.user.id;
+    const userService = strapi.plugins["users-permissions"].services.user;
+
+    const user = await userService.fetch({ id }, ME_POPULATE);
+
+    if (!user) {
+      return ctx.badRequest(null, [
+        { messages: [{ id: "No authorization header was found" }] },
+      ]);
+    }
+
+    ctx.body = sanitizeUser(user);
+  },
+
+  /**
+   * Update user's tags
+   * @return {Object|Array}
+   */
+  async updateTags(ctx) {
+    const userId = ctx.state.user.id;
+    const { tags } = ctx.request.body;
+
+    const userService = strapi.plugins["users-permissions"].services.user;
+
+    await userService.edit({ id: userId }, { tags });
+
+    const user = await userService.fetch({ id: userId }, ME_POPULATE);
+
+    if (!user) {
+      return ctx.badRequest(null, [
+        { messages: [{ id: "No authorization header was found" }] },
+      ]);
+    }
+
+    ctx.body = sanitizeUser(user);
+  },
+
+  /**
+   * Retrieves interesting content based on user's tag preferences
+   * @return {Object|Array}
+   */
+  async interests(ctx) {
+    const userId = ctx.state.user.id;
+
+    const userService = strapi.plugins["users-permissions"].services.user;
+    const tagsService = strapi.services.tags;
+
+    const user = await userService.fetch({ id: userId }, [
+      ...ME_POPULATE,
+      "completed_tests",
+    ]);
+
+    if (!user) {
+      return ctx.badRequest(null, [
+        { messages: [{ id: "No authorization header was found" }] },
+      ]);
+    }
+
+    const completedTestIds = user.completed_tests?.map(
+      ({ test, test_snapshot }) => test ?? test_snapshot.id
+    );
+
+    const tagsIds = user.tags.map(({ id }) => id);
+
+    const tags = await tagsService.find({ id_in: tagsIds }, [
+      "pages.tags",
+      "tests.tags",
+    ]);
+
+    const uniquePages = {};
+    const uniqueTests = {};
+    tags.forEach(({ pages, tests }) => {
+      pages.forEach(({ id, slug, title, lead, tags }) => {
+        uniquePages[id] = {
+          id,
+          slug,
+          title,
+          description: lead,
+          tags: tags.map(({ name }) => name),
+          type: "page",
+        };
+      });
+      tests.forEach(({ id, slug, name, description, tags, type }) => {
+        // Include only tests that the user has not yet completed
+        if (!completedTestIds.includes(id)) {
+          uniqueTests[id] = {
+            id,
+            slug,
+            title: name,
+            description,
+            tags: tags.map(({ name }) => name),
+            type,
+          };
+        }
+      });
+    });
+
+    const pages = Object.keys(uniquePages).map((key) => uniquePages[key]);
+    const tests = Object.keys(uniqueTests).map((key) => uniqueTests[key]);
+
+    const interests = [...pages, ...tests];
+
+    ctx.body = shuffleArray(interests);
+  },
+
   async changePassword(ctx) {
     const ctxUser = ctx.state.user;
 
@@ -37,7 +150,7 @@ module.exports = {
     if (currentPassword && newPassword && newPassword === newPasswordConfirm) {
       const userService = strapi.plugins["users-permissions"].services.user;
 
-      const user = await userService.fetch({ id: ctxUser.id }, ["role"]);
+      const user = await userService.fetch({ id: ctxUser.id }, ME_POPULATE);
 
       if (!user) {
         return ctx.badRequest("User.change_password.user.not_exist");
@@ -54,9 +167,10 @@ module.exports = {
 
       // Note: New password will be hashed in userService's edit method below
       const updateData = { password: newPassword };
-      const data = await userService.edit({ id: user.id }, updateData);
+      await userService.edit({ id: user.id }, updateData);
+      const updatedUser = await userService.fetch({ id: user.id }, ME_POPULATE);
 
-      return ctx.send(sanitizeUser(data));
+      return ctx.send(sanitizeUser(updatedUser));
     }
 
     return ctx.badRequest("User.change_password.new_password.no_match");

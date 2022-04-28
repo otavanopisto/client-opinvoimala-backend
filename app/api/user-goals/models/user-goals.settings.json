@@ -21,9 +21,9 @@
       "default": false
     },
     "user": {
+      "via": "goals",
       "plugin": "users-permissions",
-      "model": "user",
-      "via": "goals"
+      "model": "user"
     }
   }
 }

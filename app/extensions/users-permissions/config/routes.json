@@ -89,6 +89,26 @@
           "actionType": "getTestsSummary"
         }
       }
+    },
+    {
+      "method": "POST",
+      "path": "/users/me/tags",
+      "handler": "User.updateTags",
+      "config": {
+        "policies": [],
+        "prefix": "",
+        "description": "Adds new tag list for authenticated user"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/users/me/interests",
+      "handler": "User.interests",
+      "config": {
+        "policies": [],
+        "prefix": "",
+        "description": "Retrieves interesting content based on user's tag preferences"
+      }
     }
   ]
 }
