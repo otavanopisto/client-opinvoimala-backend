@@ -146,6 +146,17 @@ const sanitizeOutcomes = async (testOutcomes) => {
   };
 };
 
+const sanitizeEvent = (event) => {
+  if (!event || _.isEmpty(event)) return null;
+
+  const _event = {
+    ...event,
+    image: sanitizeImage(event.image),
+    links: event.links.map(sanitizeLink),
+  };
+  return sanitizeEntity(_event, { model: strapi.models.events });
+};
+
 module.exports = {
   sanitizeImage,
   sanitizeLinkTarget,
@@ -157,4 +168,5 @@ module.exports = {
   sanitizePage,
   sanitizeTest,
   sanitizeOutcomes,
+  sanitizeEvent,
 };
