@@ -157,6 +157,35 @@ const sanitizeEvent = (event) => {
   return sanitizeEntity(_event, { model: strapi.models.events });
 };
 
+const getRole = async (id) => {
+  if (!id) return null;
+  return await strapi.services["specialist-role"].findOne({ id });
+};
+
+const sanitizeSpecialist = async (specialist) => {
+  if (!specialist) return null;
+
+  const { id, name, specialist_role } = specialist;
+
+  const role_id = specialist_role?.id
+    ? specialist_role.id
+    : Number(specialist_role);
+
+  const role = specialist_role?.role ? specialist_role : await getRole(role_id);
+
+  return { id, name, role: role?.role, role_id: role?.id };
+};
+
+const sanitizeAppointment = async (appointment) => {
+  const { appointment_specialist } = appointment;
+  const entity = {
+    ...appointment,
+    appointment_specialist: await sanitizeSpecialist(appointment_specialist),
+  };
+
+  return sanitizeEntity(entity, { model: strapi.models.appointment });
+};
+
 module.exports = {
   sanitizeImage,
   sanitizeLinkTarget,
@@ -169,4 +198,6 @@ module.exports = {
   sanitizeTest,
   sanitizeOutcomes,
   sanitizeEvent,
+  sanitizeSpecialist,
+  sanitizeAppointment,
 };

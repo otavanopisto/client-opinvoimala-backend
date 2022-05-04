@@ -1,12 +1,13 @@
 "use strict";
 
-const { sanitizeEntity } = require("strapi-utils");
 const { DateTime } = require("luxon");
 const {
   notifySpecialist,
   notifyUser,
 } = require("../../../emails/appointment/appointment-emails");
 const { createEmailTransporter } = require("../../../utils/email");
+const { sanitizeAppointment } = require("../../../utils/sanitizers");
+
 /**
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
  * to customize this controller
@@ -68,35 +69,6 @@ const timeFromNow = (isoDate, unit = "hours") => {
   const diff = date.diff(now, [unit]);
 
   return diff.toObject()[unit];
-};
-
-const getRole = async (id) => {
-  if (!id) return null;
-  return await strapi.services["specialist-role"].findOne({ id });
-};
-
-const sanitizeSpecialist = async (specialist) => {
-  if (!specialist) return null;
-
-  const { id, name, specialist_role } = specialist;
-
-  const role_id = specialist_role?.id
-    ? specialist_role.id
-    : Number(specialist_role);
-
-  const role = specialist_role?.role ? specialist_role : await getRole(role_id);
-
-  return { id, name, role: role?.role, role_id: role?.id };
-};
-
-const sanitizeAppointment = async (appointment) => {
-  const { appointment_specialist } = appointment;
-  const entity = {
-    ...appointment,
-    appointment_specialist: await sanitizeSpecialist(appointment_specialist),
-  };
-
-  return sanitizeEntity(entity, { model: strapi.models.appointment });
 };
 
 module.exports = {
