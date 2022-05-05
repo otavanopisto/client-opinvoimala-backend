@@ -30,6 +30,33 @@ module.exports = {
     );
   },
 
+  async create(ctx) {
+    const userId = ctx.state.user.id;
+
+    const payload = {
+      ...ctx.request.body,
+      created_by: userId,
+      updated_by: userId,
+    };
+
+    const entity = await strapi.query("appointment").create(payload);
+    return sanitizeAppointment(entity);
+  },
+
+  async edit(ctx) {
+    const userId = ctx.state.user.id;
+    const { id } = ctx.params;
+
+    const payload = {
+      ...ctx.request.body,
+      updated_by: userId,
+    };
+
+    const query = { id, created_by: userId };
+    const entity = await strapi.query("appointment").update(query, payload);
+    return sanitizeAppointment(entity);
+  },
+
   async cancel(ctx) {
     const { id } = ctx.params;
     const userId = ctx.state.user.id;

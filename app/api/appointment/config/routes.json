@@ -76,6 +76,22 @@
     },
     {
       "method": "POST",
+      "path": "/admin-api/appointments",
+      "handler": "admin-appointment.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/admin-api/appointments/:id",
+      "handler": "admin-appointment.edit",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
       "path": "/admin-api/appointments/:id/cancel",
       "handler": "admin-appointment.cancel",
       "config": {
