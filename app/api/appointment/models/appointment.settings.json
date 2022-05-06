@@ -35,13 +35,28 @@
       "required": true
     },
     "user": {
+      "private": true,
       "via": "appointments",
       "plugin": "users-permissions",
-      "private": true,
       "model": "user"
     },
     "appointment_specialist": {
       "model": "appointment-specialist"
+    },
+    "repeat_rule": {
+      "type": "enumeration",
+      "enum": [
+        "once",
+        "daily",
+        "weekly"
+      ],
+      "default": "once"
+    },
+    "repeat_until": {
+      "type": "date"
+    },
+    "repeat_group": {
+      "type": "integer"
     }
   }
 }

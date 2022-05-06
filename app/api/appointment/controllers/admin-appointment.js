@@ -1,6 +1,12 @@
 "use strict";
 const { DateTime } = require("luxon");
 const { sanitizeAppointment } = require("../../../utils/sanitizers");
+const {
+  localizedDate,
+  mergeDateAndTime,
+  isWeekend,
+  isHoliday,
+} = require("../../../utils/date");
 
 /**
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
@@ -39,8 +45,65 @@ module.exports = {
       updated_by: userId,
     };
 
+    // Add new appointment
     const entity = await strapi.query("appointment").create(payload);
-    return sanitizeAppointment(entity);
+
+    const { id } = entity;
+    const { start_time, end_time, repeat_rule, repeat_until } = payload;
+
+    // Define repeat group for repeting appointments
+    const repeat_group = entity.id;
+    payload.repeat_group = repeat_group;
+
+    // List of created appointments (will be send as a response)
+    const createdEntities = [
+      // Update already created entity with repeat_group (=first appointment's id)
+      await strapi.query("appointment").update({ id }, { repeat_group }),
+    ];
+
+    // Updates dates of the payload object
+    const updatePayloadDates = (newDate) => ({
+      ...payload,
+      start_time: mergeDateAndTime(newDate.toISO(), start_time),
+      end_time: mergeDateAndTime(newDate.toISO(), end_time),
+    });
+
+    let date = localizedDate(start_time);
+    const untilDate = localizedDate(repeat_until).endOf("day");
+
+    // Repeat appointment based on given repetition rules
+    switch (repeat_rule) {
+      case "daily":
+        date = date.plus({ days: 1 }); // First item was already added
+        while (date <= untilDate) {
+          if (!isWeekend(date) && !isHoliday(date)) {
+            const repeatedEntity = await strapi
+              .query("appointment")
+              .create(updatePayloadDates(date));
+            createdEntities.push(repeatedEntity);
+          }
+          date = date.plus({ days: 1 });
+        }
+        break;
+      case "weekly":
+        date = date.plus({ weeks: 1 }); // First item was already added
+        while (date <= untilDate) {
+          if (!isHoliday(date)) {
+            const repeatedEntity = await strapi
+              .query("appointment")
+              .create(updatePayloadDates(date));
+            createdEntities.push(repeatedEntity);
+          }
+          date = date.plus({ weeks: 1 });
+        }
+        break;
+      default:
+      // do nothing
+    }
+
+    return Promise.all(
+      createdEntities.map(async (entity) => await sanitizeAppointment(entity))
+    );
   },
 
   async edit(ctx) {
