@@ -97,6 +97,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "DELETE",
+      "path": "/admin-api/appointments/:id",
+      "handler": "admin-appointment.delete",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }

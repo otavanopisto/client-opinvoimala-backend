@@ -134,4 +134,48 @@ module.exports = {
       ctx.send({ ok: false });
     }
   },
+
+  async delete(ctx) {
+    const { id } = ctx.params;
+    const userId = ctx.state.user.id;
+    const { repeatScope } = ctx.query;
+
+    let deletedIds = [];
+
+    const entity = await strapi
+      .query("appointment")
+      .findOne({ id, created_by: userId });
+
+    const { start_time, repeat_group } = entity;
+
+    switch (repeatScope) {
+      case "all":
+        if (repeat_group) {
+          // Delete all appointments in a given group
+          const entities = await strapi
+            .query("appointment")
+            .delete({ repeat_group, created_by: userId });
+          deletedIds = [deletedIds, ...entities.map(({ id }) => id)];
+        }
+        break;
+      case "following":
+        if (repeat_group) {
+          // Delete all FOLLOWING appointments in a given group
+          const entities = await strapi.query("appointment").delete({
+            start_time_gte: start_time,
+            repeat_group,
+            created_by: userId,
+          });
+          deletedIds = [deletedIds, ...entities.map(({ id }) => id)];
+        }
+        break;
+      default:
+        // Delete just one appointment
+        const entity = await strapi
+          .query("appointment")
+          .delete({ id, created_by: userId });
+        if (entity?.id) deletedIds.push(entity.id);
+    }
+    return { deletedIds };
+  },
 };
