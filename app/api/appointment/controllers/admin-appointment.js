@@ -107,17 +107,71 @@ module.exports = {
   },
 
   async edit(ctx) {
-    const userId = ctx.state.user.id;
     const { id } = ctx.params;
+    const userId = ctx.state.user.id;
+    const { repeatScope } = ctx.query;
 
     const payload = {
       ...ctx.request.body,
       updated_by: userId,
+      updated_at: DateTime.local().toISO(),
     };
 
-    const query = { id, created_by: userId };
-    const entity = await strapi.query("appointment").update(query, payload);
-    return sanitizeAppointment(entity);
+    const baseQuery = { created_by: userId };
+
+    let editedEntities = [];
+
+    const getUpdatedTimes = (entity) => ({
+      start_time: mergeDateAndTime(entity.start_time, payload.start_time),
+      end_time: mergeDateAndTime(entity.end_time, payload.end_time),
+    });
+
+    switch (repeatScope) {
+      case "all":
+        const allInRepeatGroup = await strapi
+          .query("appointment")
+          .find({ ...baseQuery, repeat_group: payload.repeat_group });
+
+        editedEntities = await Promise.all(
+          allInRepeatGroup.map(async (entity) => {
+            return await strapi
+              .query("appointment")
+              .update(
+                { id: entity.id },
+                { ...payload, ...getUpdatedTimes(entity) }
+              );
+          })
+        );
+        break;
+      case "following":
+        const allFollowingEntities = await strapi.query("appointment").find({
+          ...baseQuery,
+          repeat_group: payload.repeat_group,
+          start_time_gte: payload.start_time,
+        });
+
+        editedEntities = await Promise.all(
+          allFollowingEntities.map(async (entity) => {
+            return await strapi
+              .query("appointment")
+              .update(
+                { id: entity.id },
+                { ...payload, ...getUpdatedTimes(entity) }
+              );
+          })
+        );
+        break;
+      default:
+        editedEntities.push(
+          await strapi
+            .query("appointment")
+            .update({ ...baseQuery, id }, payload)
+        );
+    }
+
+    return Promise.all(
+      editedEntities.map(async (entity) => await sanitizeAppointment(entity))
+    );
   },
 
   async cancel(ctx) {
