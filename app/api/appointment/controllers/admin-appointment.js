@@ -202,6 +202,30 @@ module.exports = {
 
     const { start_time, repeat_group } = entity;
 
+    const updateRepeatUntilValues = async () => {
+      const allInRepeatGroup = await strapi
+        .query("appointment")
+        .find({ created_by: userId, repeat_group });
+
+      const sorted = allInRepeatGroup.sort((a, b) =>
+        b.start_time.localeCompare(a.start_time)
+      );
+      const latestAppointment = sorted?.[0];
+
+      await Promise.all(
+        allInRepeatGroup.map(async (entity) => {
+          return await strapi.query("appointment").update(
+            { id: entity.id },
+            {
+              repeat_until: localizedDate(latestAppointment.start_time)
+                .endOf("day")
+                .toISO(),
+            }
+          );
+        })
+      );
+    };
+
     switch (repeatScope) {
       case "all":
         if (repeat_group) {
@@ -220,6 +244,7 @@ module.exports = {
             repeat_group,
             created_by: userId,
           });
+          await updateRepeatUntilValues();
           deletedIds = [deletedIds, ...entities.map(({ id }) => id)];
         }
         break;
@@ -228,6 +253,7 @@ module.exports = {
         const entity = await strapi
           .query("appointment")
           .delete({ id, created_by: userId });
+        await updateRepeatUntilValues();
         if (entity?.id) deletedIds.push(entity.id);
     }
     return { deletedIds };
