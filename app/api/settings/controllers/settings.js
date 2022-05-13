@@ -14,6 +14,9 @@ module.exports = {
       "links.page.users_permissions_roles",
       "logos",
     ]);
-    return sanitizeSettings(entity);
+
+    const tags = await strapi.services.tags.find({}, []);
+
+    return sanitizeSettings({ ...entity, tags: tags ?? [] });
   },
 };
