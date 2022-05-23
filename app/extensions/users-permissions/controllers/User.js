@@ -14,7 +14,9 @@ const {
 const {
   sanitizeImage,
   sanitizeOutcomes,
+  sanitizeLink,
 } = require("../../../utils/sanitizers");
+const { composeLink } = require("../../../utils/links");
 const { shuffleArray } = require("../../../utils/array");
 
 const sanitizeUser = (user) =>
@@ -107,7 +109,8 @@ module.exports = {
     const uniquePages = {};
     const uniqueTests = {};
     tags.forEach(({ pages, tests }) => {
-      pages.forEach(({ id, slug, title, lead, tags }) => {
+      pages.forEach((page) => {
+        const { id, slug, title, lead, tags } = page;
         uniquePages[id] = {
           id,
           slug,
@@ -115,9 +118,11 @@ module.exports = {
           description: lead,
           tags: tags.map(({ name }) => name),
           type: "page",
+          link: sanitizeLink(composeLink("page")(page)),
         };
       });
-      tests.forEach(({ id, slug, name, description, tags, type }) => {
+      tests.forEach((test) => {
+        const { id, slug, name, description, tags, type } = test;
         // Include only tests that the user has not yet completed
         if (!completedTestIds.includes(id)) {
           uniqueTests[id] = {
@@ -127,6 +132,7 @@ module.exports = {
             description,
             tags: tags.map(({ name }) => name),
             type,
+            link: sanitizeLink(composeLink("test")(test)),
           };
         }
       });
