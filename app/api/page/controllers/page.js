@@ -1,6 +1,6 @@
 "use strict";
 
-const { sanitizePage } = require("../../../utils/sanitizers");
+const { sanitizePage, sanitizeFeedback } = require("../../../utils/sanitizers");
 const { isPublic, isUserAllowed } = require("../../../utils/auth");
 const { updateLikes } = require("../../../utils/feedback");
 
@@ -92,7 +92,7 @@ module.exports = {
           .query("page")
           .update({ id }, { likes, dislikes });
 
-        return sanitizePage({ ...page, ...updatedPage });
+        return sanitizeFeedback(updatedPage.feedback, likes, dislikes);
       }
     }
 

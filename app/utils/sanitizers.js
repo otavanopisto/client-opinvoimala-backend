@@ -211,6 +211,7 @@ module.exports = {
   sanitizeFrontPage,
   sanitizeSettings,
   sanitizeNavigation,
+  sanitizeFeedback,
   sanitizePage,
   sanitizeTest,
   sanitizeOutcomes,

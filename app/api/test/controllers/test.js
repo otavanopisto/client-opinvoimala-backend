@@ -5,6 +5,7 @@ const {
   sanitizeTest,
   sanitizeLink,
   sanitizeOutcomes,
+  sanitizeFeedback,
 } = require("../../../utils/sanitizers");
 const { isPublic, isUserAllowed } = require("../../../utils/auth");
 const { updateLikes } = require("../../../utils/feedback");
@@ -291,7 +292,7 @@ module.exports = {
           .query("test")
           .update({ id }, { likes, dislikes });
 
-        return sanitizeTest(await composeTest({ ...test, ...updatedTest }));
+        return sanitizeFeedback(updatedTest.feedback, likes, dislikes);
       }
     }
 
