@@ -28,6 +28,8 @@ const errorResponse = (ctx, errors, type) => {
   switch (type) {
     case "forbidden":
       return ctx.forbidden();
+    case "not_found":
+      return ctx.notFound();
     default:
       return ctx.badRequest(null, [{ messages: errors }]);
   }
@@ -282,6 +284,8 @@ module.exports = {
     const { type } = ctx.request.body;
 
     const test = await strapi.services.test.findOne({ id }, POPULATE);
+
+    if (!test) return errorResponse(ctx, [], "not_found");
 
     if (test.feedback?.show_feedback) {
       const { likes, dislikes } = updateLikes(type, test.likes, test.dislikes);
