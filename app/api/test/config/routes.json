@@ -55,6 +55,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "POST",
+      "path": "/tests/:id/feedback",
+      "handler": "test.feedback",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }

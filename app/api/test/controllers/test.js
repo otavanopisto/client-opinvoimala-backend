@@ -7,6 +7,7 @@ const {
   sanitizeOutcomes,
 } = require("../../../utils/sanitizers");
 const { isPublic, isUserAllowed } = require("../../../utils/auth");
+const { updateLikes } = require("../../../utils/feedback");
 const {
   getMatchingOutcomes,
   getTestMaximumPoints,
@@ -102,6 +103,7 @@ const composeTest = async (test) => {
   delete test.template;
   delete test.outcomes;
   delete test.outcome_type;
+  delete test.completed_tests;
 
   return { ...test, questions };
 };
@@ -271,5 +273,28 @@ module.exports = {
     }
 
     return outcomes;
+  },
+
+  async feedback(ctx) {
+    const { id } = ctx.params;
+    const user = ctx.state.user;
+    const { type } = ctx.request.body;
+
+    const test = await strapi.services.test.findOne({ id }, POPULATE);
+
+    if (test.feedback?.show_feedback) {
+      const { likes, dislikes } = updateLikes(type, test.likes, test.dislikes);
+
+      const roles = test.users_permissions_roles;
+      if (isPublic(roles) || isUserAllowed(user, roles)) {
+        const updatedTest = await strapi
+          .query("test")
+          .update({ id }, { likes, dislikes });
+
+        return sanitizeTest(await composeTest({ ...test, ...updatedTest }));
+      }
+    }
+
+    return errorResponse(ctx, [], "forbidden");
   },
 };

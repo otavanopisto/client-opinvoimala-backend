@@ -77,6 +77,23 @@
     "tags": {
       "via": "tests",
       "collection": "tags"
+    },
+    "feedback": {
+      "type": "component",
+      "repeatable": false,
+      "component": "elements.feedback"
+    },
+    "likes": {
+      "type": "integer",
+      "default": 0,
+      "min": 0,
+      "private": true
+    },
+    "dislikes": {
+      "type": "integer",
+      "default": 0,
+      "min": 0,
+      "private": true
     }
   }
 }

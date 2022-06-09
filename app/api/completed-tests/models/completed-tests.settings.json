@@ -22,8 +22,8 @@
       "dominant": true
     },
     "test": {
-      "model": "test",
-      "via": "completed_tests"
+      "via": "completed_tests",
+      "model": "test"
     },
     "test_snapshot": {
       "type": "json"

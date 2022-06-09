@@ -90,6 +90,15 @@ const sanitizeNavigation = (navigation) => {
   return sanitizeEntity(_navigation, { model: strapi.models.navigation });
 };
 
+const sanitizeFeedback = (feedback, likes, dislikes) => {
+  const showLikes = feedback?.show_feedback && feedback?.show_number_of_likes;
+  return {
+    ...feedback,
+    likes: showLikes ? likes : null,
+    dislikes: showLikes ? dislikes : null,
+  };
+};
+
 const sanitizePage = async (page) => {
   if (!page || _.isEmpty(page)) return null;
 
@@ -112,7 +121,9 @@ const sanitizePage = async (page) => {
       ...page.link_list,
       links: combined_link_list,
     }),
+    feedback: sanitizeFeedback(page.feedback, page.likes, page.dislikes),
   };
+
   return sanitizeEntity(_page, { model: strapi.models.page });
 };
 
@@ -120,7 +131,13 @@ const sanitizeTest = (test) => {
   if (!test || _.isEmpty(test)) return null;
 
   delete test.roles;
-  return sanitizeEntity(test, { model: strapi.models.test });
+
+  const _test = {
+    ...test,
+    feedback: sanitizeFeedback(test.feedback, test.likes, test.dislikes),
+  };
+
+  return sanitizeEntity(_test, { model: strapi.models.test });
 };
 
 const sanitizeOutcomes = async (testOutcomes) => {
