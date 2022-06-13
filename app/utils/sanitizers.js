@@ -93,7 +93,7 @@ const sanitizeNavigation = (navigation) => {
 const sanitizeFeedback = (feedback, likes, dislikes) => {
   const showLikes = feedback?.show_feedback && feedback?.show_number_of_likes;
 
-  delete feedback.id;
+  delete feedback?.id;
   delete feedback?.show_number_of_likes;
 
   return {
