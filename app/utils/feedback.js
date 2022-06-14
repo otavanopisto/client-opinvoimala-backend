@@ -19,9 +19,11 @@ const updateLikes = (type, currentLikes, currentDislikes) => {
     case "dislike-to-like":
       dislikes--;
       likes++;
+      break;
     case "like-to-dislike":
       likes--;
       dislikes++;
+      break;
   }
 
   return {
