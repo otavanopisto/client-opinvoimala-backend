@@ -186,7 +186,7 @@ const getRole = async (id) => {
 const sanitizeSpecialist = async (specialist) => {
   if (!specialist) return null;
 
-  const { id, name, specialist_role, meeting_link } = specialist;
+  const { id, name, specialist_role, meeting_link, email } = specialist;
 
   const role_id = specialist_role?.id
     ? specialist_role.id
@@ -194,7 +194,7 @@ const sanitizeSpecialist = async (specialist) => {
 
   const role = specialist_role?.role ? specialist_role : await getRole(role_id);
 
-  return { id, name, role: role?.role, role_id: role?.id, meeting_link };
+  return { id, name, role: role?.role, role_id: role?.id, meeting_link, email };
 };
 
 const sanitizeAppointment = async (appointment) => {

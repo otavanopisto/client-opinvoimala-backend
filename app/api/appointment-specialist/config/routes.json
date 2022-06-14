@@ -55,6 +55,30 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "POST",
+      "path": "/admin-api/appointment-specialists",
+      "handler": "admin-appointment-specialist.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/admin-api/appointment-specialists/:id",
+      "handler": "admin-appointment-specialist.edit",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/admin-api/appointment-specialists/:id",
+      "handler": "admin-appointment-specialist.delete",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }
