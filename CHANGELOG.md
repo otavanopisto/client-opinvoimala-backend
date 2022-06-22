@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OPI-88: User goals
 - OPI-92: Users can delete own accounts and related data
 - OPI-95: Card component can have an image
+- OPI-94: User interests (users can get recommendations according to chosen tags)
+- OPI-91: Feedback component to content pages & tests
+- OPI-93: Admin/Appointments (Manage appointments as a specialist)
+- OPI-101: Specialists can manage own roles
 
 ## [0.2.10] - 2022-01-17
 
