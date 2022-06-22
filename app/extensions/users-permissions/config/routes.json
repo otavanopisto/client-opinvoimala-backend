@@ -16,6 +16,21 @@
       }
     },
     {
+      "method": "DELETE",
+      "path": "/users/me/delete-account",
+      "handler": "User.deleteAccount",
+      "config": {
+        "policies": [],
+        "prefix": "",
+        "description": "Deletes user's own account",
+        "tag": {
+          "plugin": "users-permissions",
+          "name": "User",
+          "actionType": "deleteAccount"
+        }
+      }
+    },
+    {
       "method": "GET",
       "path": "/users/me/appointments",
       "handler": "User.appointments",
@@ -73,6 +88,26 @@
           "name": "User",
           "actionType": "getTestsSummary"
         }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/users/me/tags",
+      "handler": "User.updateTags",
+      "config": {
+        "policies": [],
+        "prefix": "",
+        "description": "Adds new tag list for authenticated user"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/users/me/interests",
+      "handler": "User.interests",
+      "config": {
+        "policies": [],
+        "prefix": "",
+        "description": "Retrieves interesting content based on user's tag preferences"
       }
     }
   ]

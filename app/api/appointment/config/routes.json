@@ -65,6 +65,46 @@
         "policies": [],
         "description": "Book appointment for authenticated user"
       }
+    },
+    {
+      "method": "GET",
+      "path": "/admin-api/appointments",
+      "handler": "admin-appointment.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/admin-api/appointments",
+      "handler": "admin-appointment.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/admin-api/appointments/:id",
+      "handler": "admin-appointment.edit",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/admin-api/appointments/:id/cancel",
+      "handler": "admin-appointment.cancel",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/admin-api/appointments/:id",
+      "handler": "admin-appointment.delete",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }

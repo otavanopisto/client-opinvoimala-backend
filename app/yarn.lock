@@ -4447,6 +4447,11 @@ fined@^1.0.1:
     object.pick "^1.2.0"
     parse-filepath "^1.0.1"
 
+finnish-holidays-js@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/finnish-holidays-js/-/finnish-holidays-js-1.1.2.tgz#5cf7d6fb5641e650694b5a206d06ad354d87b7d6"
+  integrity sha512-oIi856zyzIL7f4H1/jT2GNxZD8s+ctk8s4Ml68p9hwILaoR13XrzJEX1yeDVY1koZtlM25w1+NILpKkH0lOP1w==
+
 flagged-respawn@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/flagged-respawn/-/flagged-respawn-1.0.1.tgz#e7de6f1279ddd9ca9aac8a5971d618606b3aab41"

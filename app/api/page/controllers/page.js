@@ -1,7 +1,8 @@
 "use strict";
 
-const { sanitizePage } = require("../../../utils/sanitizers");
+const { sanitizePage, sanitizeFeedback } = require("../../../utils/sanitizers");
 const { isPublic, isUserAllowed } = require("../../../utils/auth");
+const { updateLikes } = require("../../../utils/feedback");
 
 const POPULATE = [
   "users_permissions_roles",
@@ -13,6 +14,8 @@ const errorResponse = (ctx, errors, type) => {
   switch (type) {
     case "forbidden":
       return ctx.forbidden();
+    case "not_found":
+      return ctx.notFound();
     default:
       return ctx.badRequest(null, [{ messages: errors }]);
   }
@@ -56,7 +59,9 @@ module.exports = {
       return errorResponse(ctx, [], "forbidden");
     }
 
-    return allowedEntities.map((entity) => sanitizePage(entity));
+    return Promise.all(
+      allowedEntities.map(async (entity) => await sanitizePage(entity))
+    );
   },
 
   async findOne(ctx) {
@@ -68,6 +73,31 @@ module.exports = {
     const roles = page.users_permissions_roles;
     if (isPublic(roles) || isUserAllowed(user, roles)) {
       return sanitizePage(page);
+    }
+
+    return errorResponse(ctx, [], "forbidden");
+  },
+
+  async feedback(ctx) {
+    const { id } = ctx.params;
+    const user = ctx.state.user;
+    const { type } = ctx.request.body;
+
+    const page = await strapi.services.page.findOne({ id }, POPULATE);
+
+    if (!page) return errorResponse(ctx, [], "not_found");
+
+    if (page.feedback?.show_feedback) {
+      const { likes, dislikes } = updateLikes(type, page.likes, page.dislikes);
+
+      const roles = page.users_permissions_roles;
+      if (isPublic(roles) || isUserAllowed(user, roles)) {
+        const updatedPage = await strapi
+          .query("page")
+          .update({ id }, { likes, dislikes });
+
+        return sanitizeFeedback(updatedPage.feedback, likes, dislikes);
+      }
     }
 
     return errorResponse(ctx, [], "forbidden");

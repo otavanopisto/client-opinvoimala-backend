@@ -1,0 +1,37 @@
+{
+  "kind": "singleType",
+  "collectionName": "goals",
+  "info": {
+    "name": "Goals",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "text": {
+      "type": "string"
+    },
+    "image": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "max_goals": {
+      "type": "integer",
+      "min": 1,
+      "default": 4
+    }
+  }
+}

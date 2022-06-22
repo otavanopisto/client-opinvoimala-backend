@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_goals",
+  "info": {
+    "name": "User goals",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "description": {
+      "type": "string",
+      "maxLength": 160
+    },
+    "done": {
+      "type": "boolean",
+      "default": false
+    },
+    "user": {
+      "via": "goals",
+      "plugin": "users-permissions",
+      "model": "user"
+    }
+  }
+}

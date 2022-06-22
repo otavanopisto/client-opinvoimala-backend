@@ -12,9 +12,9 @@
   "pluginOptions": {},
   "attributes": {
     "user": {
+      "via": "completed_tests",
       "plugin": "users-permissions",
-      "model": "user",
-      "via": "completed_tests"
+      "model": "user"
     },
     "test_categories": {
       "via": "completed_tests",
@@ -22,8 +22,8 @@
       "dominant": true
     },
     "test": {
-      "model": "test",
-      "via": "completed_tests"
+      "via": "completed_tests",
+      "model": "test"
     },
     "test_snapshot": {
       "type": "json"

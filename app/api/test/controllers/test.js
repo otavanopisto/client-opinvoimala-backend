@@ -1,8 +1,14 @@
 "use strict";
 
 const _ = require("lodash");
-const { sanitizeTest, sanitizeLink } = require("../../../utils/sanitizers");
+const {
+  sanitizeTest,
+  sanitizeLink,
+  sanitizeOutcomes,
+  sanitizeFeedback,
+} = require("../../../utils/sanitizers");
 const { isPublic, isUserAllowed } = require("../../../utils/auth");
+const { updateLikes } = require("../../../utils/feedback");
 const {
   getMatchingOutcomes,
   getTestMaximumPoints,
@@ -22,6 +28,8 @@ const errorResponse = (ctx, errors, type) => {
   switch (type) {
     case "forbidden":
       return ctx.forbidden();
+    case "not_found":
+      return ctx.notFound();
     default:
       return ctx.badRequest(null, [{ messages: errors }]);
   }
@@ -98,6 +106,7 @@ const composeTest = async (test) => {
   delete test.template;
   delete test.outcomes;
   delete test.outcome_type;
+  delete test.completed_tests;
 
   return { ...test, questions };
 };
@@ -186,6 +195,8 @@ module.exports = {
       trigger_outcomes: all_trigger_outcomes,
       link_list_title,
       link_list,
+      link_list_page_tags,
+      link_list_test_tags,
     } = test.outcomes ?? {};
 
     const { show_total_points, show_maximum_points, show_stars } =
@@ -230,6 +241,8 @@ module.exports = {
         : null,
       link_list_title,
       link_list: link_list?.map(sanitizeLink),
+      link_list_page_tags,
+      link_list_test_tags,
     };
 
     const completedTestsService = strapi.services["completed-tests"];
@@ -259,9 +272,34 @@ module.exports = {
         outcomes,
       });
 
-      return completedTest.outcomes;
+      return await sanitizeOutcomes(completedTest.outcomes);
     }
 
     return outcomes;
+  },
+
+  async feedback(ctx) {
+    const { id } = ctx.params;
+    const user = ctx.state.user;
+    const { type } = ctx.request.body;
+
+    const test = await strapi.services.test.findOne({ id }, POPULATE);
+
+    if (!test) return errorResponse(ctx, [], "not_found");
+
+    if (test.feedback?.show_feedback) {
+      const { likes, dislikes } = updateLikes(type, test.likes, test.dislikes);
+
+      const roles = test.users_permissions_roles;
+      if (isPublic(roles) || isUserAllowed(user, roles)) {
+        const updatedTest = await strapi
+          .query("test")
+          .update({ id }, { likes, dislikes });
+
+        return sanitizeFeedback(updatedTest.feedback, likes, dislikes);
+      }
+    }
+
+    return errorResponse(ctx, [], "forbidden");
   },
 };
