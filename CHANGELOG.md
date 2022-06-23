@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.2] - 2022-06-23
+
+- Hotfix/Link list
+
 ## [0.3.1] - 2022-06-23
 
 - Hotfix/Card-component isPublic didn't work as expected
