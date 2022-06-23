@@ -14,7 +14,7 @@ module.exports = {
 
     const entities = await strapi
       .query("appointment-specialist")
-      .find({ created_by: userId }, ["specialist_role"]);
+      .find({ created_by: userId, _limit: -1 }, ["specialist_role"]);
 
     return Promise.all(
       entities.map(async (entity) => await sanitizeSpecialist(entity))

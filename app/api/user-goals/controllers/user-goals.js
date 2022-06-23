@@ -31,14 +31,17 @@ const sortGoals =
   };
 
 const goalsMetaData = async () => {
-  return await strapi.services["goals"].find();
+  return await strapi.services["goals"].find({ _limit: -1 });
 };
 
 module.exports = {
   async find(ctx) {
     const user = ctx.state.user.id;
 
-    const userGoals = await strapi.services["user-goals"].find({ user });
+    const userGoals = await strapi.services["user-goals"].find({
+      user,
+      _limit: -1,
+    });
     const doneGoals = userGoals.filter(({ done }) => done);
 
     const { title, text, image, max_goals } = await goalsMetaData();
@@ -59,7 +62,10 @@ module.exports = {
   async create(ctx) {
     const user = ctx.state.user.id;
 
-    const userGoals = await strapi.services["user-goals"].find({ user });
+    const userGoals = await strapi.services["user-goals"].find({
+      user,
+      _limit: -1,
+    });
 
     const { max_goals } = goalsMetaData();
 

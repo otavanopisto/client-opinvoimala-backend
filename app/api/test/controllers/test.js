@@ -124,7 +124,10 @@ module.exports = {
     if (ctx.query._q) {
       entities = await strapi.services.test.search(ctx.query);
     } else {
-      entities = await strapi.services.test.find(ctx.query, POPULATE);
+      entities = await strapi.services.test.find(
+        { ...ctx.query, _limit: -1 },
+        POPULATE
+      );
     }
 
     // Complete entity is needed only when fetching just one test with either slug or id.
@@ -253,6 +256,7 @@ module.exports = {
       const oldTests = await completedTestsService.find({
         user: user.id,
         test: test.id,
+        _limit: -1,
       });
 
       // 2. Delete old (duplicate) tests from the DB before storing the new one

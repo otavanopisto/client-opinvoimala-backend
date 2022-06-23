@@ -143,7 +143,9 @@ module.exports = {
   },
 
   async getSummaryDetails(stars) {
-    const tests_summary = await strapi.services["tests-summary"].find();
+    const tests_summary = await strapi.services["tests-summary"].find({
+      _limit: -1,
+    });
 
     const { thresholds, show_summary, default_summary, default_details } =
       tests_summary ?? {};

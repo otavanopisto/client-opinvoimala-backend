@@ -41,9 +41,15 @@ module.exports = {
 
     let entities;
     if (ctx.query._q) {
-      entities = await strapi.services.page.search(ctx.query);
+      entities = await strapi.services.page.search({
+        ...ctx.query,
+        _limit: -1,
+      });
     } else {
-      entities = await strapi.services.page.find(ctx.query, POPULATE);
+      entities = await strapi.services.page.find(
+        { ...ctx.query, _limit: -1 },
+        POPULATE
+      );
     }
 
     // Complete entity is needed only when fetching just one page with either slug or id.

@@ -79,7 +79,7 @@ module.exports = {
     } else {
       entities = await strapi
         .query("appointment")
-        .find(ctx.query, [
+        .find({ ...ctx.query, _limit: -1 }, [
           "appointment_specialist",
           "appointment_specialist.specialist_role",
         ]);

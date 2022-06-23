@@ -12,7 +12,10 @@ module.exports = {
     if (ctx.query._q) {
       entities = await strapi.services.events.search(ctx.query);
     } else {
-      entities = await strapi.services.events.find(ctx.query);
+      entities = await strapi.services.events.find({
+        ...ctx.query,
+        _limit: -1,
+      });
     }
 
     return entities.map(sanitizeEvent);

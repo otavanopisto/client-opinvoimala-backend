@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Set "limit: -1" to all DB queries
+
 ## [0.3.3] - 2022-06-23
 
 - Hotfix/Link list: Don't limit results when querying ALL pages/tests!

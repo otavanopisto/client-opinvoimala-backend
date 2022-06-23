@@ -9,13 +9,12 @@ const { sanitizeSettings } = require("../../../utils/sanitizers");
 
 module.exports = {
   async find(ctx) {
-    const entity = await strapi.services.settings.find(ctx.query, [
-      "logo",
-      "links.page.users_permissions_roles",
-      "logos",
-    ]);
+    const entity = await strapi.services.settings.find(
+      { ...ctx.query, _limit: -1 },
+      ["logo", "links.page.users_permissions_roles", "logos"]
+    );
 
-    const tags = await strapi.services.tags.find({}, []);
+    const tags = await strapi.services.tags.find({ _limit: -1 }, []);
 
     return sanitizeSettings({ ...entity, tags: tags ?? [] });
   },

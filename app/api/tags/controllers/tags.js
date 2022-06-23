@@ -8,7 +8,10 @@ const { sanitizeEntity } = require("strapi-utils");
 
 module.exports = {
   async find(ctx) {
-    const entities = await strapi.services.tags.find(ctx.query, []);
+    const entities = await strapi.services.tags.find(
+      { ...ctx.query, _limit: -1 },
+      []
+    );
 
     return entities.map((entity) =>
       sanitizeEntity(entity, { model: strapi.models.tags })

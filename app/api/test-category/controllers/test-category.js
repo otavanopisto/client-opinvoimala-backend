@@ -42,7 +42,7 @@ module.exports = {
       entities = await strapi.services["test-category"].search(ctx.query);
     } else {
       entities = await strapi.services["test-category"].find(
-        ctx.query,
+        { ...ctx.query, _limit: -1 },
         POPULATE
       );
     }

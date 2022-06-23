@@ -24,10 +24,10 @@ module.exports = {
 
     const entities = await strapi
       .query("appointment")
-      .find({ created_by: userId, start_time_gte: date_threshold }, [
-        "appointment_specialist",
-        "appointment_specialist.specialist_role",
-      ]);
+      .find(
+        { created_by: userId, start_time_gte: date_threshold, _limit: -1 },
+        ["appointment_specialist", "appointment_specialist.specialist_role"]
+      );
 
     return Promise.all(
       entities.map(
@@ -117,7 +117,7 @@ module.exports = {
       updated_at: DateTime.local().toISO(),
     };
 
-    const baseQuery = { created_by: userId };
+    const baseQuery = { created_by: userId, _limit: -1 };
 
     let editedEntities = [];
 
@@ -205,7 +205,7 @@ module.exports = {
     const updateRepeatUntilValues = async () => {
       const allInRepeatGroup = await strapi
         .query("appointment")
-        .find({ created_by: userId, repeat_group });
+        .find({ created_by: userId, repeat_group, _limit: -1 });
 
       const sorted = allInRepeatGroup.sort((a, b) =>
         b.start_time.localeCompare(a.start_time)

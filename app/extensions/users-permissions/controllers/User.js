@@ -101,7 +101,7 @@ module.exports = {
 
     const tagsIds = user.tags.map(({ id }) => id);
 
-    const tags = await tagsService.find({ id_in: tagsIds }, [
+    const tags = await tagsService.find({ id_in: tagsIds, _limit: -1 }, [
       "pages.tags",
       "tests.tags",
     ]);
@@ -190,7 +190,10 @@ module.exports = {
     const appointmentService = strapi.services.appointment;
 
     // Remove completed tests related to the user
-    const userTests = await completedTestsService.find({ user: userId });
+    const userTests = await completedTestsService.find({
+      user: userId,
+      _limit: -1,
+    });
     if (userTests?.length) {
       Promise.all(
         userTests.map(async (test) => {
@@ -200,7 +203,10 @@ module.exports = {
     }
 
     // Handle existing appointments related to user
-    const userAppointments = await appointmentService.find({ user: userId });
+    const userAppointments = await appointmentService.find({
+      user: userId,
+      _limit: -1,
+    });
     if (userAppointments?.length) {
       Promise.all(
         userAppointments.map(async (appointment) => {
@@ -335,7 +341,9 @@ module.exports = {
       return !!test?.affects_user_profile && !!test?.published_at;
     };
 
-    const test_categories = await strapi.services["test-category"].find();
+    const test_categories = await strapi.services["test-category"].find({
+      _limit: -1,
+    });
     const profile_tests = user.completed_tests.filter(({ test }) =>
       affectsProfile(test)
     );
