@@ -42,17 +42,19 @@ const generateLinkList = async ({
   let tests = [];
 
   if (pageTags.length) {
-    const allPages = await strapi.services.page.find({ id_nin: [entityId] }, [
-      "tags",
-    ]);
+    const allPages = await strapi.services.page.find(
+      { id_nin: [entityId], _limit: -1 },
+      ["tags"]
+    );
     const pageTagIds = pageTags.map(({ id }) => id);
     pages = filterContentByTags(allPages, pageTagIds);
   }
 
   if (testTags.length) {
-    const allTests = await strapi.services.test.find({ id_nin: [entityId] }, [
-      "tags",
-    ]);
+    const allTests = await strapi.services.test.find(
+      { id_nin: [entityId], _limit: -1 },
+      ["tags"]
+    );
     const testTagIds = testTags.map(({ id }) => id);
     tests = filterContentByTags(allTests, testTagIds);
   }
