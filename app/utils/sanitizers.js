@@ -121,6 +121,7 @@ const sanitizePage = async (page) => {
 
   const _page = {
     ...page,
+    cards: page.cards?.map(sanitizeCard),
     link_list: sanitizeLinkList({
       ...page.link_list,
       links: combined_link_list,
