@@ -13,6 +13,7 @@ module.exports = {
       "image",
       "details_image",
       "cards.link.page.users_permissions_roles",
+      "cards.link.test.users_permissions_roles",
     ]);
 
     return sanitizeFrontPage(entity);

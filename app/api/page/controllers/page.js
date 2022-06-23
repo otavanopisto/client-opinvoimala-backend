@@ -8,6 +8,8 @@ const POPULATE = [
   "users_permissions_roles",
   "link_list.links.page.users_permissions_roles",
   "link_list.links.test.roles",
+  "cards.link.page.users_permissions_roles",
+  "cards.link.test.users_permissions_roles",
 ];
 
 const errorResponse = (ctx, errors, type) => {
