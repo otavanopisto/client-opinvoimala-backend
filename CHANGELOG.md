@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- OPI-106: Title field for cards
+
 ### Fixed
 
 - Set "limit: -1" to all DB queries

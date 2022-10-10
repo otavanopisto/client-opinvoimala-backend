@@ -17,8 +17,8 @@
       "unique": true
     },
     "pages": {
-      "collection": "page",
       "via": "tags",
+      "collection": "page",
       "dominant": true
     },
     "tests": {

@@ -21,9 +21,7 @@
     "image": {
       "model": "file",
       "via": "related",
-      "allowedTypes": [
-        "images"
-      ],
+      "allowedTypes": ["images"],
       "plugin": "upload",
       "required": false,
       "pluginOptions": {}
@@ -34,12 +32,13 @@
     "details_image": {
       "model": "file",
       "via": "related",
-      "allowedTypes": [
-        "images"
-      ],
+      "allowedTypes": ["images"],
       "plugin": "upload",
       "required": false,
       "pluginOptions": {}
+    },
+    "cards_title": {
+      "type": "string"
     },
     "cards": {
       "type": "component",
