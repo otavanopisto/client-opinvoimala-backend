@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Set "limit: -1" to all DB queries
+- OPI-103: Check user permissions in tag-based link list as well
 
 ## [0.3.3] - 2022-06-23
 

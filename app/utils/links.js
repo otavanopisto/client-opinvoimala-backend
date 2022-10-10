@@ -44,7 +44,7 @@ const generateLinkList = async ({
   if (pageTags.length) {
     const allPages = await strapi.services.page.find(
       { id_nin: [entityId], _limit: -1 },
-      ["tags"]
+      ["tags", "users_permissions_roles"]
     );
     const pageTagIds = pageTags.map(({ id }) => id);
     pages = filterContentByTags(allPages, pageTagIds);
@@ -53,7 +53,7 @@ const generateLinkList = async ({
   if (testTags.length) {
     const allTests = await strapi.services.test.find(
       { id_nin: [entityId], _limit: -1 },
-      ["tags"]
+      ["tags", "users_permissions_roles"]
     );
     const testTagIds = testTags.map(({ id }) => id);
     tests = filterContentByTags(allTests, testTagIds);
