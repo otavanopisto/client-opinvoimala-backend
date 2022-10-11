@@ -6,6 +6,7 @@ const {
   sanitizeLink,
   sanitizeOutcomes,
   sanitizeFeedback,
+  sanitizeCard,
 } = require("../../../utils/sanitizers");
 const { isPublic, isUserAllowed } = require("../../../utils/auth");
 const { updateLikes } = require("../../../utils/feedback");
@@ -176,6 +177,8 @@ module.exports = {
       ...POPULATE,
       "outcomes.link_list.test.roles",
       "outcomes.link_list.page.users_permissions_roles",
+      "outcomes.cards.link_page.users_permissions_roles",
+      "outcomes.cards.link_test.users_permissions_roles",
     ]);
     const template = await getTestTemplate(test.template);
     const outcome_type = getOutcomeType(test, template);
@@ -200,6 +203,8 @@ module.exports = {
       link_list,
       link_list_page_tags,
       link_list_test_tags,
+      cards_title,
+      cards,
     } = test.outcomes ?? {};
 
     const { show_total_points, show_maximum_points, show_stars } =
@@ -245,6 +250,8 @@ module.exports = {
       link_list: link_list?.map(sanitizeLink),
       link_list_page_tags,
       link_list_test_tags,
+      cards_title,
+      cards: cards?.map(sanitizeCard),
     };
 
     const completedTestsService = strapi.services["completed-tests"];

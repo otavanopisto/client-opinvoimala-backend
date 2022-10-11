@@ -28,6 +28,14 @@
       "repeatable": true,
       "component": "tests.test-trigger-outcome"
     },
+    "cards_title": {
+      "type": "string"
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "elements.card-flat"
+    },
     "link_list_title": {
       "type": "string"
     },

@@ -1,0 +1,46 @@
+{
+  "collectionName": "components_elements_card_flats",
+  "info": {
+    "name": "card_flat",
+    "icon": "id-card-alt"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "text": {
+      "type": "string"
+    },
+    "image": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": ["images"],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "link_label": {
+      "type": "string"
+    },
+    "link_type": {
+      "type": "enumeration",
+      "enum": ["page", "test", "external", "internal"],
+      "required": true
+    },
+    "link_page": {
+      "autoPopulate": true,
+      "model": "page"
+    },
+    "link_test": {
+      "autoPopulate": true,
+      "model": "test"
+    },
+    "link_external": {
+      "type": "string"
+    },
+    "link_internal": {
+      "type": "string"
+    }
+  }
+}

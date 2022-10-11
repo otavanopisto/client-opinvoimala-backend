@@ -23,10 +23,11 @@ const sanitizeLinkTarget = (target, roles = []) => {
   };
 };
 
-const sanitizeLink = (link) => {
+const sanitizeLink = (link, index) => {
   if (!link || _.isEmpty(link)) return null;
   return {
     ...link,
+    id: link.id ?? index + 1,
     page: sanitizeLinkTarget(link.page, link.page?.users_permissions_roles),
     test: sanitizeLinkTarget(link.test, link.test?.roles),
     // TODO: Just return one target/href/src/etc value based on link.type:
@@ -48,11 +49,29 @@ const sanitizeLinkList = (linkList) => {
   };
 };
 
-const sanitizeCard = (card) => {
+const sanitizeCard = (card, index) => {
   if (!card || _.isEmpty(card)) return null;
+
+  // Consider Card OR CardFlat components (Card have link object while CardFlat doesn't)
+  const link = card.link ?? {
+    label: card.link_label,
+    type: card.link_type,
+    page: card.link_page,
+    test: card.link_test,
+    external: card.link_external,
+    internal: card.link_internal,
+  };
+
+  delete card.link_label;
+  delete card.link_type;
+  delete card.link_page;
+  delete card.link_test;
+  delete card.link_external;
+  delete card.link_internal;
+
   return {
     ...card,
-    link: sanitizeLink(card.link),
+    link: sanitizeLink(link, index),
   };
 };
 
