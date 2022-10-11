@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - OPI-106: Title field for cards
 
+### Changed
+
+- OPI-111: Filter outcomes for exercises as well
+
 ### Fixed
 
 - Set "limit: -1" to all DB queries

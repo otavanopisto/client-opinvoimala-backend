@@ -101,18 +101,8 @@ module.exports = {
   },
 
   // Get outcomes that match to user's answers
-  // (either by test type or points or outcome values)
-  getMatchingOutcomes({
-    outcomes,
-    test_type,
-    points,
-    outcome_values,
-    trigger_values,
-  }) {
-    if (test_type === "exercise") {
-      return outcomes;
-    }
-
+  // (either by points or outcome values)
+  getMatchingOutcomes({ outcomes, points, outcome_values, trigger_values }) {
     let matchingOutcomes;
 
     if (!_.isNil(points)) {
@@ -131,7 +121,7 @@ module.exports = {
       );
     }
 
-    return matchingOutcomes ?? [];
+    return matchingOutcomes ?? outcomes;
   },
 
   getAverageStars(outcomes) {

@@ -216,10 +216,9 @@ module.exports = {
     // Get trigger option values that user triggered
     const trigger_values = getTriggerValues(answers, questions);
 
-    // Get matching outcomes (either by test type or points or outcome values)
+    // Get matching outcomes (either by points or outcome values)
     const matching_outcomes = getMatchingOutcomes({
       outcomes: all_outcomes,
-      test_type: test.type,
       points: isTotalPoints ? total_points : undefined,
       outcome_values: isSuitabilityOfAnswers ? outcome_values : undefined,
     });
