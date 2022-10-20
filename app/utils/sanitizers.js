@@ -49,18 +49,29 @@ const sanitizeLinkList = (linkList) => {
   };
 };
 
+const hasFlatLink = (item) =>
+  item?.link_label ||
+  item?.link_type ||
+  item?.link_page ||
+  item?.link_test ||
+  item?.link_external ||
+  item?.link_internal;
+
 const sanitizeCard = (card, index) => {
   if (!card || _.isEmpty(card)) return null;
 
   // Consider Card OR CardFlat components (Card have link object while CardFlat doesn't)
-  const link = card.link ?? {
-    label: card.link_label,
-    type: card.link_type,
-    page: card.link_page,
-    test: card.link_test,
-    external: card.link_external,
-    internal: card.link_internal,
-  };
+  let link = card.link;
+  if (!link && hasFlatLink(card)) {
+    link = {
+      label: card.link_label,
+      type: card.link_type,
+      page: card.link_page,
+      test: card.link_test,
+      external: card.link_external,
+      internal: card.link_internal,
+    };
+  }
 
   delete card.link_label;
   delete card.link_type;
@@ -81,6 +92,7 @@ const sanitizeFrontPage = (frontPage) => {
     ...frontPage,
     cards: frontPage.cards.map(sanitizeCard),
   };
+  console.log(_frontPage.cards);
   return sanitizeEntity(_frontPage, { model: strapi.models["front-page"] });
 };
 
