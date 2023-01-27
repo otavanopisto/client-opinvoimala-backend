@@ -4381,7 +4381,7 @@ fined@^1.0.1:
     object.pick "^1.2.0"
     parse-filepath "^1.0.1"
 
-finnish-holidays-js@^1.1.2:
+finnish-holidays-js@1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/finnish-holidays-js/-/finnish-holidays-js-1.1.2.tgz#5cf7d6fb5641e650694b5a206d06ad354d87b7d6"
   integrity sha512-oIi856zyzIL7f4H1/jT2GNxZD8s+ctk8s4Ml68p9hwILaoR13XrzJEX1yeDVY1koZtlM25w1+NILpKkH0lOP1w==
@@ -6757,18 +6757,13 @@ mkdirp@^1.0.3:
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
 moment-timezone@^0.5.31:
-  version "0.5.33"
-  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.33.tgz#b252fd6bb57f341c9b59a5ab61a8e51a73bbd22c"
-  integrity sha512-PTc2vcT8K9J5/9rDEPe5czSIKgLoGsH8UNpA4qZTVw0Vd/Uz19geE9abbIOQKaAQFcnQ3v5YEXrbSc5BpshH+w==
+  version "0.5.40"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.40.tgz#c148f5149fd91dd3e29bf481abc8830ecba16b89"
+  integrity sha512-tWfmNkRYmBkPJz5mr9GVDn9vRlVZOTe6yqY92rFxiOdWXbjaR0+9LwQnZGGuNR63X456NqmEkbskte8tWL5ePg==
   dependencies:
     moment ">= 2.9.0"
 
-"moment@>= 2.9.0", moment@>=1.6.0, moment@^2.24.0:
-  version "2.29.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
-  integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
-
-moment@^2.29.4:
+"moment@>= 2.9.0", moment@>=1.6.0, moment@^2.24.0, moment@^2.29.4:
   version "2.29.4"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
   integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
@@ -7005,7 +7000,7 @@ nodemailer-shared@1.1.0:
   dependencies:
     nodemailer-fetch "1.6.0"
 
-nodemailer@^6.7.2:
+nodemailer@6.7.2:
   version "6.7.2"
   resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.7.2.tgz#44b2ad5f7ed71b7067f7a21c4fedabaec62b85e0"
   integrity sha512-Dz7zVwlef4k5R71fdmxwR8Q39fiboGbu3xgswkzGwczUfjp873rVxt1O46+Fh0j1ORnAC6L9+heI8uUpO6DT7Q==
@@ -9053,15 +9048,15 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
+slugify@1.6.5:
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.6.5.tgz#c8f5c072bf2135b80703589b39a3d41451fbe8c8"
+  integrity sha512-8mo9bslnBO3tr5PEVFzMPIWwWnipGS0xVbYf65zxDqfNwmzYn1LpiKNrR6DlClusuvo+hDHd1zKpmfAe83NQSQ==
+
 slugify@^1.5.3:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.6.0.tgz#6bdf8ed01dabfdc46425b67e3320b698832ff893"
   integrity sha512-FkMq+MQc5hzYgM86nLuHI98Acwi3p4wX+a5BO9Hhw4JdK4L7WueIiZ4tXEobImPqBz2sVcV0+Mu3GRB30IGang==
-
-slugify@^1.6.5:
-  version "1.6.5"
-  resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.6.5.tgz#c8f5c072bf2135b80703589b39a3d41451fbe8c8"
-  integrity sha512-8mo9bslnBO3tr5PEVFzMPIWwWnipGS0xVbYf65zxDqfNwmzYn1LpiKNrR6DlClusuvo+hDHd1zKpmfAe83NQSQ==
 
 snakeize@^0.1.0:
   version "0.1.0"
@@ -9509,7 +9504,7 @@ strapi-helper-plugin@3.6.11:
     styled-components "^5.2.3"
     whatwg-fetch "^3.6.2"
 
-strapi-plugin-ckeditor5@^1.13.0:
+strapi-plugin-ckeditor5@1.13.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/strapi-plugin-ckeditor5/-/strapi-plugin-ckeditor5-1.13.0.tgz#d687da2d3e1cc6463d13ffa64e7065c0e62eb9dd"
   integrity sha512-UQNsyrc+SWgDBjjcrtd5OvjlCLHJ4p1egEFolQyoErxPhfDY2OoEYCBFGWLaqq/muwDIRFxo5vm9rAdUKVNOmw==
@@ -9680,7 +9675,7 @@ strapi-plugin-users-permissions@3.6.11:
     strapi-utils "3.6.11"
     uuid "^3.1.0"
 
-strapi-provider-email-amazon-ses@^3.6.11:
+strapi-provider-email-amazon-ses@3.6.11:
   version "3.6.11"
   resolved "https://registry.yarnpkg.com/strapi-provider-email-amazon-ses/-/strapi-provider-email-amazon-ses-3.6.11.tgz#621f7067939b9ce50515e538a4a7d1ae49780c92"
   integrity sha512-YoYipJWTKJkZJkbaFiGwrZmeS2hI8Y8nrcfXbopOZq6/moPkUnvfdeZh0LLYpiS66lF40TAyk7/ClY/TpMFHEg==
