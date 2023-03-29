@@ -92,7 +92,6 @@ const sanitizeFrontPage = (frontPage) => {
     ...frontPage,
     cards: frontPage.cards.map(sanitizeCard),
   };
-  console.log(_frontPage.cards);
   return sanitizeEntity(_frontPage, { model: strapi.models["front-page"] });
 };
 
