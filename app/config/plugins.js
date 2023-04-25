@@ -1,10 +1,10 @@
 module.exports = ({ env }) => ({
   email: {
-    provider: "amazon-ses",
+    provider: "mailgun",
     providerOptions: {
-      key: env("SMTP_USER"),
-      secret: env("SMTP_PASSWORD"),
-      amazon: env("SMTP_HOST", "email-smtp.eu-west-1.amazonaws.com"),
+      apiKey: env("MAILGUN_API_KEY"),
+      domain: env("MAILGUN_DOMAIN"),
+      host: env("MAILGUN_URL", "api.eu.mailgun.net"),
     },
     settings: {
       defaultFrom: env("SMTP_FROM", "no-reply@opinvoimala.fi"),

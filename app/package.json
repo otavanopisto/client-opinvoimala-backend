@@ -9,7 +9,6 @@
     "build": "strapi build",
     "strapi": "strapi"
   },
-  "devDependencies": {},
   "dependencies": {
     "finnish-holidays-js": "1.1.2",
     "knex": "2.4.0",
@@ -27,7 +26,7 @@
     "strapi-plugin-i18n": "3.6.11",
     "strapi-plugin-upload": "3.6.11",
     "strapi-plugin-users-permissions": "3.6.11",
-    "strapi-provider-email-amazon-ses": "3.6.11",
+    "strapi-provider-email-mailgun": "3.6.11",
     "strapi-utils": "3.6.11"
   },
   "author": {
