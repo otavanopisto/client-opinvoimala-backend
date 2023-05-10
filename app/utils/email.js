@@ -11,7 +11,7 @@ const createEmailTransporter = () => {
     port: 587,
     secureConnection: true,
     auth: {
-      user: process.env.SMTP_USER,
+      user: process.env.SMTP_USERNAME,
       pass: process.env.SMTP_PASSWORD,
     },
     tls: {
