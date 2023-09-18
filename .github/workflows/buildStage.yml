@@ -1,0 +1,24 @@
+name: Build staging
+on: 
+  push:
+    tags: 
+      - '*-staging'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Dockerhub
+        uses: docker/login-action@v3
+        with:
+          username: ${{secrets.DOCKER_USER}}
+          password: ${{secrets.DOCKER_PASSWORD}}
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ratkaisutiimi/client-opinvoimala-frontend
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
