@@ -43,3 +43,31 @@ docker exec -it client-opinvoimala-backend_mariadb_1 bash
 ```
 
 **Note**: If you are managing/installing new packages (e.g. `yarn add...`), it is strongly recommended to install these from within the container (accessing the container described above)! Encountered some errors with some packages (most of them works both ways) when wasn't doing this.
+
+### Build stage
+
+Create & push new tag `*-stage` (e.g. yyyymmdd-HHMM-stage)
+
+```sh
+git checkout dev
+# Make sure that all changes are merged into dev
+git tag [tag]
+git push origin dev --tags
+```
+
+_(It's recommend to deploy staging versions from dev branch)_
+
+### Build production
+
+Please deploy production versions always from the master branch!
+
+1. Update changelog & bump version number in package.json and commit changes
+2. Create & push new tag `*-production` (e.g. 0.0.1-production)
+
+```sh
+git checkout master
+# Make sure all changes are merged into master and
+# Update changelog & package.json (and commit changes)
+git tag [tag]
+git push origin master --tags
+```
