@@ -1,27 +1,17 @@
 module.exports = ({ env }) => ({
-  upload: {
-    provider: "google-cloud-storage",
-    providerOptions: {
-      serviceAccount: env("GOOGLE_CLOUD_STORAGE_ACCESS_KEY"),
-      bucketName: env("GOOGLE_CLOUD_STORAGE_BUCKET_NAME"),
-      baseUrl: `https://storage.googleapis.com/${env(
-        "GOOGLE_CLOUD_STORAGE_BUCKET_NAME"
-      )}`,
-      basePath: "",
-      publicFiles: true,
-      uniform: false,
-    },
-  },
   email: {
-    provider: "amazon-ses",
+    provider: 'nodemailer',
     providerOptions: {
-      key: env("SMTP_USER"),
-      secret: env("SMTP_PASSWORD"),
-      amazon: env("SMTP_HOST", "email-smtp.eu-west-1.amazonaws.com"),
+      host: env('SMTP_HOST'),
+      port: env('SMTP_PORT'),
+      auth: {
+        user: env('SMTP_USERNAME'),
+        pass: env('SMTP_PASSWORD'),
+      },
     },
     settings: {
-      defaultFrom: env("SMTP_FROM", "no-reply@opinvoimala.fi"),
-      defaultReplyTo: env("SMTP_FROM", "no-reply@opinvoimala.fi"),
+      defaultFrom: 'no-reply@opinvoimala.fi',
+      defaultReplyTo: 'no-reply@opinvoimala.fi',
     },
   },
 });
