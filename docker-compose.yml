@@ -1,4 +1,5 @@
-version: '3'
+version: "3"
+
 services:
   strapi:
     image: strapi/strapi
@@ -21,11 +22,14 @@ services:
 
       MAILGUN_API_KEY: ${MAILGUN_API_KEY}
       MAILGUN_DOMAIN: ${MAILGUN_DOMAIN}
+      MEILI_HOST: ${MEILI_HOST}
 
+    networks:
+      - strapi-network
     volumes:
       - ./app:/srv/app
     ports:
-      - '1337:1337'
+      - "1337:1337"
     depends_on:
       - mariadb
 
@@ -40,3 +44,20 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - ${MYSQL_PORT}:3306
+    networks:
+      - strapi-network
+
+  meilisearch:
+    image: getmeili/meilisearch
+    volumes:
+      - ../meilisearch/data.ms:/data.ms
+    networks:
+      - strapi-network
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+      MEILI_HOST: ${MEILI_HOST}
+    ports:
+      - "7700:7700"
+networks:
+  strapi-network:
+    driver: bridge
