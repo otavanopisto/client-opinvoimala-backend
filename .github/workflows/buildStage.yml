@@ -17,7 +17,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ratkaisutiimi/client-opinvoimala-frontend
+          images: ratkaisutiimi/client-opinvoimala-backend
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
